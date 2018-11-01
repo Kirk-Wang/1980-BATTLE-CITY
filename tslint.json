@@ -5,6 +5,7 @@
     "interface-name": false,
     "no-console": false,
     "no-unused-expression": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "no-duplicate-imports": false
   }
 }

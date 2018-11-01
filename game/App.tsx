@@ -1,6 +1,6 @@
 import React from "react";
 import { hot } from "react-hot-loader";
-import { GameScene } from "./components/GameScene";
+import { GameScene } from "./connected";
 
 export const App = hot(module)(() => {
     return (
