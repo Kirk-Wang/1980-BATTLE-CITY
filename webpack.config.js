@@ -41,6 +41,7 @@ module.exports = function(env = {}) {
     },
     module: {
       rules: [
+        { test: /\.json$/, type: 'javascript/auto', loader: 'json-loader' },
         {
           test: /\.tsx?$/,
           use: [
