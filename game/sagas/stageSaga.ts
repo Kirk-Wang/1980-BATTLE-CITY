@@ -10,9 +10,15 @@ export interface StageResult {
 
 export function* stageSaga(stage: StageConfig) {
     DEV.LOG && console.log(`进入第 ${stage.name} 关`);
-    // 载入地图
-    yield put(actions.loadStageMap(stage));
-    while (true) {
-        yield take("Waiting Unknown Action");
+
+    try {
+        // 载入地图
+        yield put(actions.loadStageMap(stage));
+        yield put(actions.startStage(stage));
+        while (true) {
+            yield take("Waiting Unknown Action");
+        }
+    } finally {
+        yield "unknown";
     }
 }

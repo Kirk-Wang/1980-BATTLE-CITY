@@ -60,3 +60,13 @@ export function asRect(item: BulletRecord | TankRecord | EagleRecord | PowerUpRe
         throw new Error("Cannot convert to type Rect");
     }
 }
+
+export function incTankLevel(tank: TankRecord) {
+    if (tank.level === "basic") {
+        return tank.set("level", "fast");
+    } else if (tank.level === "fast") {
+        return tank.set("level", "power");
+    } else {
+        return tank.set("level", "armor");
+    }
+}

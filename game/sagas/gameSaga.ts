@@ -1,5 +1,5 @@
 // tslint:disable-next-line:no-submodule-imports
-import { race, select } from "redux-saga/effects";
+import { all, race, select } from "redux-saga/effects";
 import { State } from "../reducers";
 import * as actions from "../utils/actions";
 import { PLAYER_CONFIGS } from "../utils/constants";
@@ -25,6 +25,7 @@ export function* gameSaga(action: actions.StartGame) {
     const players = [playerSaga("player-1", PLAYER_CONFIGS.player1)];
 
     const result = yield race({
+        players: all(players),
         // 关卡流程
         flow: stageFlow(action.stageIndex),
     });

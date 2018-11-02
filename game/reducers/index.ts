@@ -5,6 +5,7 @@ import { StageConfig } from "../types/StageConfig";
 import { map } from "./map";
 import { player1, player2 } from "./players";
 import { stages } from "./stages";
+import { tanks, TanksMap } from "./tanks";
 
 export interface State {
     /**
@@ -15,6 +16,7 @@ export interface State {
     map: MapRecord;
     player1: PlayerRecord;
     player2: PlayerRecord;
+    tanks: TanksMap;
 }
 
 export const rootReducer = combineReducers<State>({
@@ -23,4 +25,5 @@ export const rootReducer = combineReducers<State>({
     map,
     player1,
     player2,
+    tanks,
 });

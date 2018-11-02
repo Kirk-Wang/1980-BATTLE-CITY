@@ -15,6 +15,37 @@ export const ZOOM_LEVEL = 2;
 export const SCREEN_WIDTH = 16 * BLOCK_SIZE;
 export const SCREEN_HEIGHT = 15 * BLOCK_SIZE;
 
+/**
+ * 坦克的配色方案
+ * 共有4种配色方案: 黄色方案, 绿色方案, 银色方案, 红色方案
+ * 每种配色方案包括三个具体的颜色值, a对应浅色, b对应一般颜色, c对应深色
+ */
+interface Schema {
+    [color: string]: { a: string; b: string; c: string };
+}
+export const TANK_COLOR_SCHEMES: Schema = {
+    yellow: {
+        a: "#E7E794",
+        b: "#E79C21",
+        c: "#6B6B00",
+    },
+    green: {
+        a: "#B5F7CE",
+        b: "#008C31",
+        c: "#005200",
+    },
+    silver: {
+        a: "#FFFFFF",
+        b: "#ADADAD",
+        c: "#00424A",
+    },
+    red: {
+        a: "#FFFFFF",
+        b: "#B53121",
+        c: "#5A007B",
+    },
+};
+
 /** 物体的大小(边长) */
 export const ITEM_SIZE_MAP = {
     BRICK: 4,

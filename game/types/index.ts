@@ -52,4 +52,7 @@ declare global {
     type Side = "player" | "bot";
 
     type Direction = "up" | "down" | "left" | "right";
+
+    type SteelIndex = number;
+    type BrickIndex = number;
 }
