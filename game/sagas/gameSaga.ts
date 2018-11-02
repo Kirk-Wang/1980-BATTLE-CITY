@@ -2,6 +2,8 @@
 import { race, select } from "redux-saga/effects";
 import { State } from "../reducers";
 import * as actions from "../utils/actions";
+import { PLAYER_CONFIGS } from "../utils/constants";
+import { playerSaga } from "./playerSaga";
 import { StageResult, stageSaga } from "./stageSaga";
 
 /**
@@ -19,7 +21,11 @@ function* stageFlow(startStageIndex: number) {
 export function* gameSaga(action: actions.StartGame) {
     DEV.LOG && console.log("GAME STARTED");
 
+    // 玩家
+    const players = [playerSaga("player-1", PLAYER_CONFIGS.player1)];
+
     const result = yield race({
+        // 关卡流程
         flow: stageFlow(action.stageIndex),
     });
 

@@ -1,0 +1,14 @@
+import { Record } from "immutable";
+
+const FlickerRecordBase = Record({
+    flickerId: 0,
+    x: 0,
+    y: 0,
+    shape: 0 as FlickerShape,
+});
+
+export class FlickerRecord extends FlickerRecordBase {
+    public static fromJS(object: any) {
+        return new FlickerRecord(object);
+    }
+}
