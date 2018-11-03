@@ -5,6 +5,7 @@ import * as actions from "../utils/actions";
 import { PLAYER_CONFIGS } from "../utils/constants";
 import { playerSaga } from "./playerSaga";
 import { StageResult, stageSaga } from "./stageSaga";
+import { tickEmitter } from "./tickEmitter";
 
 /**
  * 关卡控制，一关接一关
@@ -25,6 +26,7 @@ export function* gameSaga(action: actions.StartGame) {
     const players = [playerSaga("player-1", PLAYER_CONFIGS.player1)];
 
     const result = yield race({
+        tick: tickEmitter({}),
         players: all(players),
         // 关卡流程
         flow: stageFlow(action.stageIndex),

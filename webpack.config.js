@@ -60,6 +60,14 @@ module.exports = function(env = {}) {
         }
       ]
     },
-    plugins
+    plugins,
+
+    devServer: {
+      disableHostCheck: true,
+      contentBase: __dirname,
+      host: '0.0.0.0',
+      hot: true,
+      port: 8080,
+    },
   };
 };

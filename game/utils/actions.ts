@@ -3,9 +3,17 @@ import { FlickerRecord, MapRecord, TankRecord } from "../types";
 
 export enum A {
     Tick = "Tick",
+    AfterTick = "AfterTick",
     Move = "Move",
+    IncKillCount = "IncKillCount",
     StartMove = "StartMove",
+    ResetGame = "ResetGame",
+    GameResume = "GameResume",
+    ShowStatistics = "ShowStatistics",
+    HideStatistics = "HideStatistics",
     StopMove = "StopMove",
+    UpdateCurtain = "UpdateCurtain",
+    UpdateComingStageName = "UpdateComingStageName",
     SetCooldown = "SetCooldown",
     SetHelmetDuration = "SetHelmetDuration",
     SetFrozenTimeout = "SetFrozenTimeout",
@@ -13,6 +21,8 @@ export enum A {
     LoadStageMap = "LoadStageMap",
     StartGame = "StartGame",
     StartStage = "StartStage",
+    BeforeEndGame = "BeforeEndGame",
+    EndGame = "EndGame",
     SetReservedTank = "SetReversedTank",
     SetTankVisibility = "SetTankVisibility",
     StartSpawnTank = "StartSpawnTank",
@@ -33,6 +43,15 @@ export enum A {
     DecrementPlayerLife = "DecrementPlayerLife",
     RemoveBricks = "RemoveBricks",
     UpdateMap = "UpdateMap",
+    BeforeStartStage = "BeforeStartStage",
+    BeforeEndStage = "BeforeEndStage",
+    EndStage = "EndStage",
+    RemoveFirstRemainingBot = "RemoveFirstRemainingBot",
+    UpdateTransientKillInfo = "UpdateTransientKillInfo",
+    ShowTotalKillCount = "ShowTotalKillCount",
+    GamePause = "GamePause",
+    ShowHud = "ShowHud",
+    HideHud = "HideHud",
 }
 
 export type LoadStageMap = ReturnType<typeof loadStageMap>;
@@ -290,8 +309,99 @@ export function updateMap(map: MapRecord) {
     };
 }
 
+export type AfterTick = ReturnType<typeof afterTick>;
+export function afterTick(delta: number) {
+    return {
+        type: A.AfterTick as A.AfterTick,
+        delta,
+    };
+}
+
+export type UpdateComingStageName = ReturnType<typeof updateComingStageName>;
+export function updateComingStageName(stageName: string) {
+    return {
+        type: A.UpdateComingStageName as A.UpdateComingStageName,
+        stageName,
+    };
+}
+
+export type UpdateCurtain = ReturnType<typeof updateCurtain>;
+export function updateCurtain(curtainName: "stage-enter-curtain", t: number) {
+    return {
+        type: A.UpdateCurtain as A.UpdateCurtain,
+        curtainName,
+        t,
+    };
+}
+
+export type BeforeStartStage = ReturnType<typeof beforeStartStage>;
+export function beforeStartStage(stage: StageConfig) {
+    return {
+        type: A.BeforeStartStage as A.BeforeStartStage,
+        stage,
+    };
+}
+
+export type RemoveFirstRemainingBot = ReturnType<typeof removeFirstRemainingBot>;
+export const removeFirstRemainingBot = () => ({
+    type: A.RemoveFirstRemainingBot as A.RemoveFirstRemainingBot,
+});
+
+export type ShowStatistics = ReturnType<typeof showStatistics>;
+export const showStatistics = () => ({ type: A.ShowStatistics as A.ShowStatistics });
+
+export type HideStatistics = ReturnType<typeof hideStatistics>;
+export const hideStatistics = () => ({ type: A.HideStatistics as A.HideStatistics });
+
+export type BeforeEndGame = ReturnType<typeof beforeEndGame>;
+export const beforeEndGame = () => ({ type: A.BeforeEndGame as A.BeforeEndGame });
+
+export type EndGame = ReturnType<typeof endGame>;
+export const endGame = () => ({ type: A.EndGame as A.EndGame });
+
+export type ResetGame = ReturnType<typeof resetGame>;
+export const resetGame = () => ({ type: A.ResetGame as A.ResetGame });
+
 export type DestroyEagle = ReturnType<typeof destroyEagle>;
 export const destroyEagle = () => ({ type: A.DestroyEagle as A.DestroyEagle });
+
+export type BeforeEndStage = ReturnType<typeof beforeEndStage>;
+export const beforeEndStage = () => ({ type: A.BeforeEndStage as A.BeforeEndStage });
+
+export type EndStage = ReturnType<typeof endStage>;
+export const endStage = () => ({ type: A.EndStage as A.EndStage });
+
+export type IncKillCount = ReturnType<typeof incKillCount>;
+export function incKillCount(playerName: PlayerName, level: TankLevel) {
+    return {
+        type: A.IncKillCount as A.IncKillCount,
+        playerName,
+        level,
+    };
+}
+
+export type UpdateTransientKillInfo = ReturnType<typeof updateTransientKillInfo>;
+export function updateTransientKillInfo(info: Map<PlayerName, Map<TankLevel, number>>) {
+    return {
+        type: A.UpdateTransientKillInfo as A.UpdateTransientKillInfo,
+        info,
+    };
+}
+
+export type GamePause = ReturnType<typeof gamePause>;
+export const gamePause = () => ({ type: A.GamePause as A.GamePause });
+
+export type GameResume = ReturnType<typeof gameResume>;
+export const gameResume = () => ({ type: A.GameResume as A.GameResume });
+
+export type ShowTotalKillCount = ReturnType<typeof showTotalKillCount>;
+export const showTotalKillCount = () => ({ type: A.ShowTotalKillCount as A.ShowTotalKillCount });
+
+export type ShowHud = ReturnType<typeof showHud>;
+export const showHud = () => ({ type: A.ShowHud as A.ShowHud });
+
+export type HideHud = ReturnType<typeof hideHud>;
+export const hideHud = () => ({ type: A.HideHud as A.HideHud });
 
 // action 对象的定义
 export type Action =
@@ -321,4 +431,21 @@ export type Action =
     | UpdateMap
     | AddRestrictedArea
     | RemoveRestrictedArea
+    | UpdateComingStageName
+    | Tick
+    | AfterTick
+    | UpdateCurtain
+    | ResetGame
+    | EndGame
+    | ShowStatistics
+    | HideStatistics
+    | EndStage
+    | IncKillCount
+    | RemoveFirstRemainingBot
+    | UpdateTransientKillInfo
+    | ShowTotalKillCount
+    | GamePause
+    | GameResume
+    | ShowHud
+    | HideHud
     | AddTank;

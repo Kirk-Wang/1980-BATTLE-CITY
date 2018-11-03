@@ -7,6 +7,7 @@ import RestrictedAreaLayer from "./dev-only/RestrictedAreaLayer";
 import { Eagle } from "./Eagle";
 import { SteelLayer } from "./SteelLayer";
 import { Tank } from "./tank";
+import TankHelmet from "./TankHelmet";
 
 export class GameFieldContent extends React.PureComponent<Partial<State & Point>> {
     public render() {
@@ -22,6 +23,14 @@ export class GameFieldContent extends React.PureComponent<Partial<State & Point>
                 <g className="tank-layer">
                     {aliveTanks
                         .map(tank => <Tank key={tank.tankId} tank={tank} showReservedIndicator={true} />)
+                        .valueSeq()}
+                </g>
+                <g className="helmet-layer">
+                    {aliveTanks
+                        .map(
+                            tank =>
+                                tank.helmetDuration > 0 ? <TankHelmet key={tank.tankId} x={tank.x} y={tank.y} /> : null,
+                        )
                         .valueSeq()}
                 </g>
                 <RestrictedAreaLayer areas={restrictedAreas} />
