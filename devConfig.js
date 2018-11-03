@@ -10,11 +10,11 @@ module.exports = dev => ({
   // 是否显示 <SpotGraph />
   'DEV.SPOT_GRAPH': false,
   // 是否显示 <TankPath />
-  'DEV.TANK_PATH': true,
+  'DEV.TANK_PATH': false,
   // 是否显示 <RestrictedAreaLayer /> 与「坦克的转弯保留位置指示器」
   'DEV.RESTRICTED_AREA': dev,
   // 是否加快游戏过程
-  'DEV.FAST': true,
+  'DEV.FAST': false,
   // 是否使用测试关卡
   'DEV.TEST_STAGE': false,
   // 是否显示 About 信息

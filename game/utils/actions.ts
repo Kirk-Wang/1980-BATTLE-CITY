@@ -6,6 +6,8 @@ export enum A {
     AfterTick = "AfterTick",
     Move = "Move",
     IncKillCount = "IncKillCount",
+    SetFlicker = "AddOrUpdateFlicker",
+    RemoveFlicker = "RemoveFlicker",
     StartMove = "StartMove",
     ResetGame = "ResetGame",
     GameResume = "GameResume",
@@ -448,4 +450,6 @@ export type Action =
     | GameResume
     | ShowHud
     | HideHud
+    | SetFlicker
+    | RemoveFlicker
     | AddTank;

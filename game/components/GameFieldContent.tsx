@@ -5,13 +5,14 @@ import { BLOCK_SIZE as B } from "../utils/constants";
 import { BrickLayer } from "./BrickLayer";
 import RestrictedAreaLayer from "./dev-only/RestrictedAreaLayer";
 import { Eagle } from "./Eagle";
+import { Flicker } from "./Flicker";
 import { SteelLayer } from "./SteelLayer";
 import { Tank } from "./tank";
 import TankHelmet from "./TankHelmet";
 
 export class GameFieldContent extends React.PureComponent<Partial<State & Point>> {
     public render() {
-        const { x = 0, y = 0, map, tanks } = this.props;
+        const { x = 0, y = 0, map, tanks, flickers } = this.props;
         const { steels, bricks, eagle, restrictedAreas } = map.toObject();
         const aliveTanks = tanks.filter(t => t.alive);
         return (
@@ -34,6 +35,9 @@ export class GameFieldContent extends React.PureComponent<Partial<State & Point>
                         .valueSeq()}
                 </g>
                 <RestrictedAreaLayer areas={restrictedAreas} />
+                <g className="flicker-layer">
+                    {flickers.map(flicker => <Flicker key={flicker.flickerId} flicker={flicker} />).valueSeq()}
+                </g>
             </g>
         );
     }

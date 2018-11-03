@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 import { MapRecord, PlayerRecord } from "../types";
 import { StageConfig } from "../types/StageConfig";
 import { A, Action } from "../utils/actions";
+import { flickers, FlickersMap } from "./flickers";
 import { game, GameRecord } from "./game";
 import { map } from "./map";
 import { player1, player2 } from "./players";
@@ -21,6 +22,7 @@ export interface State {
     player2: PlayerRecord;
     tanks: TanksMap;
     time: number;
+    flickers: FlickersMap;
 }
 
 export function time(state = 0, action: Action) {
@@ -40,4 +42,5 @@ export const rootReducer = combineReducers<State>({
     tanks,
     game,
     time,
+    flickers,
 });
