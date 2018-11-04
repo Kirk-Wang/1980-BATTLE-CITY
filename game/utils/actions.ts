@@ -32,9 +32,8 @@ export enum A {
     UpgardeTank = "UpgardeTank",
     DestroyEagle = "DestroyEagle",
     Hurt = "Hurt",
-    SetFlicker = "AddOrUpdateFlicker",
+    ReqAddBot = "ReqAddAIPlayer",
     RemovePowerUpProperty = "RemovePowerUpProperty",
-    RemoveFlicker = "RemoveFlicker",
     RemoveSteels = "RemoveSteels",
     AddRestrictedArea = "AddRestrictedArea",
     RemoveRestrictedArea = "RemoveRestrictedArea",
@@ -405,12 +404,16 @@ export const showHud = () => ({ type: A.ShowHud as A.ShowHud });
 export type HideHud = ReturnType<typeof hideHud>;
 export const hideHud = () => ({ type: A.HideHud as A.HideHud });
 
+export type ReqAddBot = ReturnType<typeof reqAddBot>;
+export const reqAddBot = () => ({ type: A.ReqAddBot as A.ReqAddBot });
+
 // action 对象的定义
 export type Action =
     | LoadStageMap
     | ActivatePlayer
     | StartGame
     | StartStage
+    | ReqAddBot
     | StartMove
     | StopMove
     | SetFrozenTimeout

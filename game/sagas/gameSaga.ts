@@ -3,6 +3,7 @@ import { all, race, select } from "redux-saga/effects";
 import { State } from "../reducers";
 import * as actions from "../utils/actions";
 import { PLAYER_CONFIGS } from "../utils/constants";
+import { botMasterSaga } from "./botMasterSaga";
 import { playerSaga } from "./playerSaga";
 import { powerUpManager } from "./powerUpManager";
 import { StageResult, stageSaga } from "./stageSaga";
@@ -28,6 +29,7 @@ export function* gameSaga(action: actions.StartGame) {
 
     const result = yield race({
         tick: tickEmitter({}),
+        ai: botMasterSaga(),
         players: all(players),
         powerUp: powerUpManager(),
         // 关卡流程

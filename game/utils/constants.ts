@@ -94,3 +94,17 @@ export const PLAYER_CONFIGS: { [key: string]: PlayerConfig } = {
         },
     },
 };
+
+/** 游戏原版：每一关中包含powerUp的tank的下标(从0开始计数) */
+// export const TANK_INDEX_THAT_WITH_POWER_UP = [3, 10, 17]
+/** 复刻版：每一关中包含powerUp的tank的下标(从0开始计数) */
+export const TANK_INDEX_THAT_WITH_POWER_UP = [3, 7, 12, 17];
+
+// TODO 该项需要重新测量
+/** 不同难度关卡下的 AI 坦克生成速度 */
+export const AI_SPAWN_SPEED_MAP = {
+    1: 0.7,
+    2: 0.85,
+    3: 1,
+    4: 1.15,
+};

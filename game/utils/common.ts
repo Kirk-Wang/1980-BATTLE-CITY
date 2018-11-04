@@ -70,3 +70,15 @@ export function incTankLevel(tank: TankRecord) {
         return tank.set("level", "armor");
     }
 }
+
+/** 用来判断subject和object是否相撞 */
+export function testCollide(subject: Rect, object: Rect, threshhold = 0) {
+    return (
+        between(subject.x - object.width, object.x, subject.x + subject.width, threshhold) &&
+        between(subject.y - object.height, object.y, subject.y + subject.height, threshhold)
+    );
+}
+
+export function between(min: number, value: number, max: number, threshhold = 0) {
+    return min - threshhold <= value && value <= max + threshhold;
+}
