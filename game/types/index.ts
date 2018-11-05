@@ -20,6 +20,7 @@ export interface PlayerConfig {
 }
 
 type TankColor = "green" | "yellow" | "silver" | "red" | "auto";
+export type Input = { type: "turn"; direction: Direction } | { type: "forward"; maxDistance?: number };
 
 declare global {
     interface Rect {
