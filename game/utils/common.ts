@@ -136,3 +136,16 @@ export function calculateBulletStartPosition({ x, y, direction }: { x: number; y
         throw new Error(`Invalid direction ${direction}`);
     }
 }
+
+export class DefaultMap<K, V> extends Map<K, V> {
+    constructor(readonly defaulter: () => V) {
+        super();
+    }
+
+    public get(key: K) {
+        if (!super.has(key)) {
+            this.set(key, this.defaulter());
+        }
+        return super.get(key)!;
+    }
+}

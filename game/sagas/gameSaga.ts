@@ -4,6 +4,7 @@ import { State } from "../reducers";
 import * as actions from "../utils/actions";
 import { PLAYER_CONFIGS } from "../utils/constants";
 import { botMasterSaga } from "./botMasterSaga";
+import { bulletsSaga } from "./bulletsSaga";
 import { playerSaga } from "./playerSaga";
 import { powerUpManager } from "./powerUpManager";
 import { StageResult, stageSaga } from "./stageSaga";
@@ -32,6 +33,7 @@ export function* gameSaga(action: actions.StartGame) {
         ai: botMasterSaga(),
         players: all(players),
         powerUp: powerUpManager(),
+        bullets: bulletsSaga(),
         // 关卡流程
         flow: stageFlow(action.stageIndex),
     });

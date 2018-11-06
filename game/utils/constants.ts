@@ -100,6 +100,9 @@ export const PLAYER_CONFIGS: { [key: string]: PlayerConfig } = {
 /** 复刻版：每一关中包含powerUp的tank的下标(从0开始计数) */
 export const TANK_INDEX_THAT_WITH_POWER_UP = [3, 7, 12, 17];
 
+/** 摧毁steel的最低子弹power值 */
+export const STEEL_POWER = 3;
+
 // TODO 该项需要重新测量
 /** 不同难度关卡下的 AI 坦克生成速度 */
 export const AI_SPAWN_SPEED_MAP = {

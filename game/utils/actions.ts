@@ -1,13 +1,17 @@
 import { StageConfig } from "../types";
-import { BulletRecord, FlickerRecord, MapRecord, TankRecord } from "../types";
+import { BulletRecord, ExplosionRecord, FlickerRecord, MapRecord, TankRecord } from "../types";
 
 export enum A {
     Tick = "Tick",
     AfterTick = "AfterTick",
     Move = "Move",
+    Hit = "Hit",
     IncKillCount = "IncKillCount",
     AddBullet = "AddBullet",
     ClearBullets = "ClearBullets",
+    RemoveExplosion = "RemoveExplosion",
+    SetExplosion = "AddOrUpdateExplosion",
+    BeforeRemoveBullet = "BeforeRemoveBullet",
     SetFlicker = "AddOrUpdateFlicker",
     RemoveFlicker = "RemoveFlicker",
     RemoveBullet = "RemoveBullet",
@@ -57,6 +61,7 @@ export enum A {
     GamePause = "GamePause",
     ShowHud = "ShowHud",
     HideHud = "HideHud",
+    PlaySound = "PlaySound",
 }
 
 export type LoadStageMap = ReturnType<typeof loadStageMap>;
@@ -438,9 +443,52 @@ export function updateBullets(updatedBullets: Map<BulletId, BulletRecord>) {
 export type ClearBullets = ReturnType<typeof clearBullets>;
 export const clearBullets = () => ({ type: A.ClearBullets as A.ClearBullets });
 
+export type SetExplosion = ReturnType<typeof setExplosion>;
+export function setExplosion(explosion: ExplosionRecord) {
+    return {
+        type: A.SetExplosion as A.SetExplosion,
+        explosion,
+    };
+}
+
+export type RemoveExplosion = ReturnType<typeof removeExplosion>;
+export function removeExplosion(explosionId: ExplosionId) {
+    return {
+        type: A.RemoveExplosion as A.RemoveExplosion,
+        explosionId,
+    };
+}
+
+export type BeforeRemoveBullet = ReturnType<typeof beforeRemoveBullet>;
+export function beforeRemoveBullet(bulletId: BulletId) {
+    return {
+        type: A.BeforeRemoveBullet as A.BeforeRemoveBullet,
+        bulletId,
+    };
+}
+
+export type PlaySound = ReturnType<typeof playSound>;
+export function playSound(soundName: SoundName) {
+    return {
+        type: A.PlaySound as A.PlaySound,
+        soundName,
+    };
+}
+
+export type Hit = ReturnType<typeof hit>;
+export function hit(bullet: BulletRecord, targetTank: TankRecord, sourceTank: TankRecord) {
+    return {
+        type: A.Hit as A.Hit,
+        bullet,
+        targetTank,
+        sourceTank,
+    };
+}
+
 // action 对象的定义
 export type Action =
     | LoadStageMap
+    | SetExplosion
     | ActivatePlayer
     | StartGame
     | AddBullet
@@ -490,4 +538,8 @@ export type Action =
     | RemoveBullet
     | UpdateBulelts
     | ClearBullets
+    | RemoveExplosion
+    | BeforeRemoveBullet
+    | PlaySound
+    | Hit
     | AddTank;
