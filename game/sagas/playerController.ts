@@ -5,7 +5,7 @@ import { all, take } from "redux-saga/effects";
 import { Input, PlayerConfig, TankRecord } from "../types";
 import { A } from "../utils/actions";
 import { directionController } from "./directionController";
-// import fireController from "./fireController";
+import { fireController } from "./fireController";
 
 // 一个 playerController 实例对应一个人类玩家(用户)的控制器.
 // 参数playerName用来指定人类玩家的玩家名称, config为该玩家的操作配置.
@@ -20,7 +20,7 @@ export function* playerController(tankId: TankId, config: PlayerConfig) {
         document.addEventListener("keyup", onKeyUp);
         yield all([
             directionController(tankId, getPlayerInput),
-            // fireController(tankId, () => firePressed || firePressing),
+            fireController(tankId, () => firePressed || firePressing),
             resetFirePressedEveryTick(),
         ]);
     } finally {

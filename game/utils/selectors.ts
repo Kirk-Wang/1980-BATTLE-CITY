@@ -21,3 +21,14 @@ export const availableSpawnPosition = (state: State): Rect => {
     }
     return _.sample(result);
 };
+
+/** 根据 tankId 找到对应的 player-name */
+export function playerName(state: State, tankId: TankId): PlayerName {
+    if (state.player1.activeTankId === tankId) {
+        return "player-1";
+    } else if (state.player2.activeTankId === tankId) {
+        return "player-2";
+    } else {
+        return null;
+    }
+}

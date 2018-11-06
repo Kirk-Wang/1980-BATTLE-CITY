@@ -1,13 +1,17 @@
 import { StageConfig } from "../types";
-import { FlickerRecord, MapRecord, TankRecord } from "../types";
+import { BulletRecord, FlickerRecord, MapRecord, TankRecord } from "../types";
 
 export enum A {
     Tick = "Tick",
     AfterTick = "AfterTick",
     Move = "Move",
     IncKillCount = "IncKillCount",
+    AddBullet = "AddBullet",
+    ClearBullets = "ClearBullets",
     SetFlicker = "AddOrUpdateFlicker",
     RemoveFlicker = "RemoveFlicker",
+    RemoveBullet = "RemoveBullet",
+    UpdateBullets = "UpdateBullets",
     StartMove = "StartMove",
     ResetGame = "ResetGame",
     GameResume = "GameResume",
@@ -407,11 +411,39 @@ export const hideHud = () => ({ type: A.HideHud as A.HideHud });
 export type ReqAddBot = ReturnType<typeof reqAddBot>;
 export const reqAddBot = () => ({ type: A.ReqAddBot as A.ReqAddBot });
 
+export type AddBullet = ReturnType<typeof addBullet>;
+export function addBullet(bullet: BulletRecord) {
+    return {
+        type: A.AddBullet as A.AddBullet,
+        bullet,
+    };
+}
+
+export type RemoveBullet = ReturnType<typeof removeBullet>;
+export function removeBullet(bulletId: BulletId) {
+    return {
+        type: A.RemoveBullet as A.RemoveBullet,
+        bulletId,
+    };
+}
+
+export type UpdateBulelts = ReturnType<typeof updateBullets>;
+export function updateBullets(updatedBullets: Map<BulletId, BulletRecord>) {
+    return {
+        type: A.UpdateBullets as A.UpdateBullets,
+        updatedBullets,
+    };
+}
+
+export type ClearBullets = ReturnType<typeof clearBullets>;
+export const clearBullets = () => ({ type: A.ClearBullets as A.ClearBullets });
+
 // action 对象的定义
 export type Action =
     | LoadStageMap
     | ActivatePlayer
     | StartGame
+    | AddBullet
     | StartStage
     | ReqAddBot
     | StartMove
@@ -455,4 +487,7 @@ export type Action =
     | HideHud
     | SetFlicker
     | RemoveFlicker
+    | RemoveBullet
+    | UpdateBulelts
+    | ClearBullets
     | AddTank;
