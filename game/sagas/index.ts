@@ -1,13 +1,12 @@
 // tslint:disable-next-line:no-submodule-imports
-import { put, takeLatest } from "redux-saga/effects";
-import * as actions from "../utils/actions";
+import { put, take, takeLatest } from "redux-saga/effects";
 import { A } from "../utils/actions";
 import { gameSaga } from "./gameSaga";
+import { serverChannel } from "./server";
 
 export function* rootSaga() {
-    DEV.LOG && console.log("root saga started");
+    DEV.LOG && console.log("rootSaga");
     yield takeLatest(A.StartGame, gameSaga);
-    if (DEV.SKIP_CHOOSE_STAGE) {
-        yield put(actions.startGame(0));
-    }
+    const action = yield take(serverChannel());
+    yield put(action);
 }

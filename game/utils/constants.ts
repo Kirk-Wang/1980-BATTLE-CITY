@@ -10,10 +10,14 @@ export const FIELD_BLOCK_SIZE = 13;
 export const FIELD_SIZE = BLOCK_SIZE * FIELD_BLOCK_SIZE;
 /** 子弹的大小 */
 export const BULLET_SIZE = 3;
+/** 摧毁steel的最低子弹power值 */
+export const STEEL_POWER = 3;
 
-export const ZOOM_LEVEL = 2;
+export const ZOOM_LEVEL = 1;
 export const SCREEN_WIDTH = 16 * BLOCK_SIZE;
 export const SCREEN_HEIGHT = 15 * BLOCK_SIZE;
+
+export const MULTI_PLAYERS_SEARCH_KEY = "multi-players";
 
 /**
  * 坦克的配色方案
@@ -44,6 +48,14 @@ export const TANK_COLOR_SCHEMES: Schema = {
         b: "#B53121",
         c: "#5A007B",
     },
+};
+
+/** 击杀坦克的得分列表 */
+export const TANK_KILL_SCORE_MAP = {
+    basic: 100,
+    fast: 200,
+    power: 300,
+    armor: 400,
 };
 
 /** 物体的大小(边长) */
@@ -86,7 +98,7 @@ export const PLAYER_CONFIGS: { [key: string]: PlayerConfig } = {
             left: "ArrowLeft",
             down: "ArrowDown",
             right: "ArrowRight",
-            fire: "Space",
+            fire: "Slash",
         },
         spawnPos: {
             x: 8 * BLOCK_SIZE,
@@ -95,13 +107,19 @@ export const PLAYER_CONFIGS: { [key: string]: PlayerConfig } = {
     },
 };
 
+export const TANK_LEVELS: TankLevel[] = ["basic", "fast", "power", "armor"];
+
+export const POWER_UP_NAMES: PowerUpName[] = ["tank", "star", "grenade", "timer", "helmet", "shovel"];
+
 /** 游戏原版：每一关中包含powerUp的tank的下标(从0开始计数) */
 // export const TANK_INDEX_THAT_WITH_POWER_UP = [3, 10, 17]
 /** 复刻版：每一关中包含powerUp的tank的下标(从0开始计数) */
 export const TANK_INDEX_THAT_WITH_POWER_UP = [3, 7, 12, 17];
 
-/** 摧毁steel的最低子弹power值 */
-export const STEEL_POWER = 3;
+/** AI 坦克检测自己是否无法移动的超时时间 */
+export const BLOCK_TIMEOUT = 200;
+/** AI 坦克检测自己是否无法移动的距离阈值 */
+export const BLOCK_DISTANCE_THRESHOLD = 0.01;
 
 // TODO 该项需要重新测量
 /** 不同难度关卡下的 AI 坦克生成速度 */
@@ -111,3 +129,14 @@ export const AI_SPAWN_SPEED_MAP = {
     3: 1,
     4: 1.15,
 };
+
+export const SIMPLE_FIRE_LOOP_INTERVAL = 300;
+
+// 每次拾取一个 power-up 就能获得 500 分
+export const POWER_UP_SCORE = 500;
+
+// 坦克升级到最高级之后，每次拾取一个 star 获得 5000 分
+export const STAR_PICKED_BY_ARMOR_TANK_SCORE = 5000;
+
+// 每获得 10000 分就能够增加生命
+export const LIFE_BONUS_SCORE = 10000;
