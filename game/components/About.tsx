@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-// import { Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 const AboutGallery = () => (
     <div>
@@ -100,7 +100,7 @@ export default class About extends React.Component {
                     编译时间 <br />
                     {COMPILE_DATE}
                 </p>
-                {/* <Switch>
+                <Switch>
                     <Route path="/list" render={AboutList} />
                     <Route path="/editor" render={AboutEditor} />
                     <Route path="/gallery" render={AboutGallery} />
@@ -108,7 +108,7 @@ export default class About extends React.Component {
                     <Route path="/choose" render={AboutChoose} />
                     <Route path="/stage" render={AboutGame} />
                     <Route render={AboutTitle} />
-                </Switch> */}
+                </Switch>
             </div>
         );
     }

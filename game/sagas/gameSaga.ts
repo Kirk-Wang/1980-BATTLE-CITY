@@ -1,5 +1,5 @@
 import { all, put, race, select, take } from "redux-saga/effects";
-import { delay } from "redux-saga/utils";
+import delay from "@redux-saga/delay-p";
 import { State } from "../reducers";
 import TextRecord from "../types/TextRecord";
 import * as actions from "../utils/actions";

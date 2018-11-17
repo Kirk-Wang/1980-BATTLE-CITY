@@ -23,6 +23,7 @@ export interface ImageProps {
     style?: any;
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export default class Image extends React.PureComponent<ImageProps> {
     public static contextTypes = {
         store: PropTypes.any,
@@ -59,7 +60,7 @@ export default class Image extends React.PureComponent<ImageProps> {
             }
             return (
                 <image
-                    data-imageKey={imageKey}
+                    data-imagekey={imageKey}
                     transform={transform}
                     href={cache.get(imageKey)}
                     width={width}

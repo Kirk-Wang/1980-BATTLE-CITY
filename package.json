@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@redux-saga/delay-p": "1.0.0-beta.3",
+    "@types/react-router": "^4.4.1",
     "classnames": "^2.2.5",
     "colyseus.js": "^0.9.15",
     "core-js": "^2.5.7",
@@ -17,6 +18,9 @@
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.0.0",
     "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
