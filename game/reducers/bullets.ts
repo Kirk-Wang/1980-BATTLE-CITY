@@ -1,10 +1,10 @@
 import { Map } from "immutable";
-import { BulletRecord } from "../types/BulletRecord";
+import BulletRecord from "../types/BulletRecord";
 import { A, Action } from "../utils/actions";
 
 export type BulletsMap = Map<BulletId, BulletRecord>;
 
-export function bullets(state = Map() as BulletsMap, action: Action): BulletsMap {
+export default function bullets(state = Map() as BulletsMap, action: Action): BulletsMap {
     if (action.type === A.AddBullet) {
         return state.set(action.bullet.bulletId, action.bullet);
     } else if (action.type === A.RemoveBullet) {

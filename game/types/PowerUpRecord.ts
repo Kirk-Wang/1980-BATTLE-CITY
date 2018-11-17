@@ -8,7 +8,7 @@ const PowerUpRecordBase = Record({
     powerUpName: "tank" as PowerUpName,
 });
 
-export class PowerUpRecord extends PowerUpRecordBase {
+export default class PowerUpRecord extends PowerUpRecordBase {
     public static fromJS(object: any) {
         return new PowerUpRecord(object);
     }

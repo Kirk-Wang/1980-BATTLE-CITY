@@ -47,6 +47,8 @@ const GameRecordBase = Record(
         showTotalKillCount: false,
         /** AI坦克的冻结时间. 小于等于0表示没有冻结, 大于0表示还需要一段时间解冻 */
         botFrozenTimeout: 0,
+        /** 战场中是否正在生成 bot tank */
+        isSpawningBotTank: false,
 
         /** 是否显示HUD */
         showHUD: false,
@@ -60,7 +62,7 @@ const GameRecordBase = Record(
 // TODO 需要重构 game-record 的结构
 export class GameRecord extends GameRecordBase {}
 
-export function game(state = new GameRecord(), action: Action) {
+export default function game(state = new GameRecord(), action: Action) {
     if (action.type === A.StartGame) {
         return state
             .set("status", "on")
@@ -113,6 +115,8 @@ export function game(state = new GameRecord(), action: Action) {
         return state.set("comingStageName", action.stageName);
     } else if (action.type === A.IncPlayerScore) {
         return state.update("playersScores", scores => scores.update(action.playerName, inc(action.count)));
+    } else if (action.type === A.SetIsSpawningBotTank) {
+        return state.set("isSpawningBotTank", action.isSpawning);
     } else {
         return state;
     }

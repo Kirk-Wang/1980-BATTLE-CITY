@@ -1,9 +1,6 @@
 import { Set as ISet } from "immutable";
-// tslint:disable-next-line:no-submodule-imports
 import { all, fork, put, select, take, takeEvery } from "redux-saga/effects";
-import { State } from "../reducers";
-import { BulletsMap } from "../reducers/bullets";
-import { BulletRecord } from "../types";
+import { BulletRecord, BulletsMap, State } from "../types";
 import * as actions from "../utils/actions";
 import { A } from "../utils/actions";
 import {
@@ -15,7 +12,7 @@ import {
 } from "../utils/bullet-utils";
 import { asRect, DefaultMap, getDirectionInfo, testCollide } from "../utils/common";
 import { BULLET_SIZE, FIELD_SIZE, STEEL_POWER } from "../utils/constants";
-import { IndexHelper } from "../utils/IndexHelper";
+import IndexHelper from "../utils/IndexHelper";
 import { destroyBullets } from "./common";
 
 interface Stat {
@@ -284,7 +281,7 @@ function* clearBullets() {
     yield put(actions.clearBullets());
 }
 
-export function* bulletsSaga() {
+export default function* bulletsSaga() {
     try {
         yield takeEvery(A.EndStage, clearBullets);
         yield all([handleTick(), handleAfterTick()]);

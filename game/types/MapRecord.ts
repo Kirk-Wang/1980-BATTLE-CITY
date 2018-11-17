@@ -1,6 +1,6 @@
 import { List, Map as IMap, Record, Repeat } from "immutable";
 import { N_MAP } from "../utils/constants";
-import { EagleRecord } from "./EagleRecord";
+import EagleRecord from "./EagleRecord";
 
 const MapRecordBase = Record({
     eagle: new EagleRecord(),
@@ -12,7 +12,7 @@ const MapRecordBase = Record({
     restrictedAreas: IMap<AreaId, Rect>(),
 });
 
-export class MapRecord extends MapRecordBase {
+export default class MapRecord extends MapRecordBase {
     public static fromJS(object: any) {
         return new MapRecord(object)
             .update("eagle", EagleRecord.fromJS)

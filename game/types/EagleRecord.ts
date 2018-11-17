@@ -7,7 +7,7 @@ const EagleRecordBase = Record({
     broken: false,
 });
 
-export class EagleRecord extends EagleRecordBase {
+export default class EagleRecord extends EagleRecordBase {
     public static fromJS(object: any) {
         return new EagleRecord(object);
     }

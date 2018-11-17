@@ -1,10 +1,8 @@
 import { List, Map } from "immutable";
-import { State } from "../reducers";
-import { TanksMap } from "../reducers/tanks";
-import { EagleRecord, TankRecord } from "../types";
+import { EagleRecord, State, TankRecord, TanksMap } from "../types";
 import { asRect, isInField, testCollide } from "./common";
 import { BLOCK_SIZE } from "./constants";
-import { IndexHelper } from "./IndexHelper";
+import IndexHelper from "./IndexHelper";
 
 function isTankCollidedWithEagle(eagle: EagleRecord, tankTarget: Rect, threshhold: number) {
     const eagleRect = {
@@ -85,7 +83,7 @@ function isTankCollidedWithOtherTanks(activeTanks: TanksMap, tank: TankRecord, t
     return false;
 }
 
-export function canTankMove(state: State, tank: TankRecord, threshhold = -0.01) {
+export default function canTankMove(state: State, tank: TankRecord, threshhold = -0.01) {
     const {
         tanks,
         map: { bricks, steels, rivers, eagle, restrictedAreas },

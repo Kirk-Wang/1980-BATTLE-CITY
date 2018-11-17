@@ -1,16 +1,15 @@
 import last from "lodash/last";
 import pull from "lodash/pull";
-// tslint:disable-next-line:no-submodule-imports
 import { all, take } from "redux-saga/effects";
 import { Input, PlayerConfig, TankRecord } from "../types";
 import { A } from "../utils/actions";
-import { directionController } from "./directionController";
-import { fireController } from "./fireController";
+import directionController from "./directionController";
+import fireController from "./fireController";
 
 // 一个 playerController 实例对应一个人类玩家(用户)的控制器.
 // 参数playerName用来指定人类玩家的玩家名称, config为该玩家的操作配置.
 // playerController 将启动 fireController 与 directionController, 从而控制人类玩家的坦克
-export function* playerController(tankId: TankId, config: PlayerConfig) {
+export default function* playerController(tankId: TankId, config: PlayerConfig) {
     let firePressing = false; // 用来记录当前玩家是否按下了fire键
     let firePressed = false; // 用来记录上一个tick内 玩家是否按下过fire键
     const pressed: Direction[] = []; // 用来记录上一个tick内, 玩家按下过的方向键
@@ -71,7 +70,6 @@ export function* playerController(tankId: TankId, config: PlayerConfig) {
         const direction = pressed.length > 0 ? last(pressed) : null;
         if (direction != null) {
             if (direction !== tank.direction) {
-                // tslint:disable-next-line:no-object-literal-type-assertion
                 return { type: "turn", direction } as Input;
             } else {
                 return { type: "forward" };

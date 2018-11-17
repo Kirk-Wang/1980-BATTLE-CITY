@@ -1,10 +1,8 @@
-// tslint:disable-next-line:no-submodule-imports
 import { put, select, take } from "redux-saga/effects";
-import { State } from "../reducers";
-import { Input, TankRecord } from "../types";
+import { Input, State, TankRecord } from "../types";
 import * as actions from "../utils/actions";
 import { A } from "../utils/actions";
-import { canTankMove } from "../utils/canTankMove";
+import canTankMove from "../utils/canTankMove";
 import { ceil8, floor8, getDirectionInfo, isPerpendicular, round8 } from "../utils/common";
 import values from "../utils/values";
 
@@ -31,7 +29,10 @@ function* getReservedTank(tank: TankRecord) {
     }
 }
 
-export function* directionController(tankId: TankId, getPlayerInput: (tank: TankRecord, delta: number) => Input) {
+export default function* directionController(
+    tankId: TankId,
+    getPlayerInput: (tank: TankRecord, delta: number) => Input,
+) {
     while (true) {
         const { delta }: actions.Tick = yield take(A.Tick);
         const tank = yield select((s: State) => s.tanks.get(tankId));

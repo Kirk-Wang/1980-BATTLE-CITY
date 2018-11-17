@@ -1,12 +1,29 @@
-export { MapRecord } from "./MapRecord";
-export { EagleRecord } from "./EagleRecord";
-export { StageConfig } from "./StageConfig";
-export { PlayerRecord } from "./PlayerRecord";
-export { TankRecord } from "./TankRecord";
-export { BulletRecord } from "./BulletRecord";
-export { PowerUpRecord } from "./PowerUpRecord";
-export { FlickerRecord } from "./FlickerRecord";
-export { ExplosionRecord } from "./ExplosionRecord";
+import BulletRecord from "./BulletRecord";
+
+export { default as TankRecord } from "./TankRecord";
+export { default as PowerUpRecord } from "./PowerUpRecord";
+export { default as ScoreRecord } from "./ScoreRecord";
+export { default as ExplosionRecord } from "./ExplosionRecord";
+export { default as FlickerRecord } from "./FlickerRecord";
+export { default as TextRecord } from "./TextRecord";
+export { default as BulletRecord } from "./BulletRecord";
+export { default as PlayerRecord } from "./PlayerRecord";
+export { default as MapRecord } from "./MapRecord";
+export { default as EagleRecord } from "./EagleRecord";
+export { default as StageConfig, RawStageConfig, StageDifficulty } from "./StageConfig";
+export { State } from "../reducers/index";
+export { BulletsMap } from "../reducers/bullets";
+export { TextsMap } from "../reducers/texts";
+export { TanksMap } from "../reducers/tanks";
+export { ScoresMap } from "../reducers/scores";
+export { ExplosionsMap } from "../reducers/explosions";
+
+/** 记录一架坦克的开火信息 */
+export interface TankFireInfo {
+    bulletCount: number;
+    canFire: boolean;
+    cooldown: number;
+}
 
 export interface PlayerConfig {
     color: TankColor;
@@ -20,7 +37,6 @@ export interface PlayerConfig {
     spawnPos: Point;
 }
 
-type TankColor = "green" | "yellow" | "silver" | "red" | "auto";
 export type Input = { type: "turn"; direction: Direction } | { type: "forward"; maxDistance?: number };
 
 declare global {
@@ -41,24 +57,44 @@ declare global {
     type TankLevel = "basic" | "fast" | "power" | "armor";
     type TankColor = "green" | "yellow" | "silver" | "red" | "auto";
 
-    type AreaId = number;
-    type BulletId = number;
+    type Direction = "up" | "down" | "left" | "right";
+
     type TankId = number;
+    type BulletId = number;
     type PowerUpId = number;
+    type ScoreId = number;
+    type AreaId = number;
+
+    type PlayerName = "player-1" | "player-2";
+    type BotName = string;
+    type TextId = number;
     type FlickerId = number;
     type ExplosionId = number;
 
     type ExplosionShape = "s0" | "s1" | "s2" | "b0" | "b1";
     type FlickerShape = 0 | 1 | 2 | 3;
 
-    type PlayerName = "player-1" | "player-2";
+    type SteelIndex = number;
+    type BrickIndex = number;
+    type RiverIndex = number;
 
     type Side = "player" | "bot";
 
-    type Direction = "up" | "down" | "left" | "right";
+    /** Note 包含了一些游戏逻辑向AI逻辑发送的消息/通知 */
+    type Note = Note.Note;
 
-    type SteelIndex = number;
-    type BrickIndex = number;
+    namespace Note {
+        type Note = BulletComplete | Reach;
+
+        interface BulletComplete {
+            type: "bullet-complete";
+            bullet: BulletRecord;
+        }
+
+        interface Reach {
+            type: "reach";
+        }
+    }
 
     type SoundName =
         | "stage_start"

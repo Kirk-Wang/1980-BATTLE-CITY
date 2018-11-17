@@ -1,9 +1,9 @@
 import { Map as IMap } from "immutable";
 import { BulletRecord } from "../types";
-import { Collision, CollisionWithBullet } from "./Collision";
+import Collision, { CollisionWithBullet } from "./Collision";
 import { asRect, DefaultMap, testCollide } from "./common";
 import { BULLET_SIZE, FIELD_SIZE } from "./constants";
-import { IndexHelper } from "./IndexHelper";
+import IndexHelper from "./IndexHelper";
 
 export function getMBR(...rects: Rect[]): Rect {
     let left = Infinity;
@@ -99,24 +99,20 @@ export class BulletCollisionInfo extends DefaultMap<BulletId, Collision[]> {
 
         if (bullet.direction === "right") {
             // 子弹往右边运动, 我们需要找到*最左边*的碰撞对象
-            // tslint:disable-next-line:no-shadowed-variable
-            const left = collisionRects.reduce((left, b) => Math.min(left, b.x), Infinity);
+            const left = collisionRects.reduce((_left, b) => Math.min(_left, b.x), Infinity);
             return { x: left - BULLET_SIZE, y: bullet.y };
         } else if (bullet.direction === "left") {
             // 子弹往左边运动, 我们需要找到*最右边*的碰撞对象
-            // tslint:disable-next-line:no-shadowed-variable
-            const right = collisionRects.reduce((right, b) => Math.max(right, b.x + b.width), -Infinity);
+            const right = collisionRects.reduce((_right, b) => Math.max(_right, b.x + b.width), -Infinity);
             return { x: right, y: bullet.y };
         } else if (bullet.direction === "up") {
             // 子弹往上方运动, 我们需要找到*最下边*的碰撞对象
-            // tslint:disable-next-line:no-shadowed-variable
-            const bottom = collisionRects.reduce((bottom, b) => Math.max(bottom, b.y + b.height), -Infinity);
+            const bottom = collisionRects.reduce((_bottom, b) => Math.max(_bottom, b.y + b.height), -Infinity);
             return { x: bullet.x, y: bottom };
         } else {
             // bullet.direction === 'down'
             // 子弹往下方运动, 我们需要找到*最上边*的碰撞对象
-            // tslint:disable-next-line:no-shadowed-variable
-            const top = collisionRects.reduce((top, b) => Math.min(top, b.y), Infinity);
+            const top = collisionRects.reduce((_top, b) => Math.min(_top, b.y), Infinity);
             return { x: bullet.x, y: top - BULLET_SIZE };
         }
     }

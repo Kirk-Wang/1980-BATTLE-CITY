@@ -1,6 +1,5 @@
 import { TankRecord } from "../types";
 
-// tslint:disable-next-line:no-namespace
 namespace values {
     export function bulletPower(tank: TankRecord) {
         if (tank.side === "player" && tank.level === "armor") {
@@ -68,5 +67,4 @@ namespace values {
     }
 }
 
-// tslint:disable-next-line:no-default-export
 export default values;

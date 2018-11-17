@@ -4,7 +4,7 @@ import { A, Action } from "../utils/actions";
 
 export type FlickersMap = Map<FlickerId, FlickerRecord>;
 
-export function flickers(state = Map() as FlickersMap, action: Action) {
+export default function flickers(state = Map() as FlickersMap, action: Action) {
     if (action.type === A.SetFlicker) {
         return state.set(action.flicker.flickerId, action.flicker);
     } else if (action.type === A.RemoveFlicker) {

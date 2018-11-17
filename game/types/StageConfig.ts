@@ -2,7 +2,7 @@ import { List, Record, Repeat } from "immutable";
 import { EagleRecord, MapRecord } from "../types";
 import { or } from "../utils/common";
 import { BLOCK_SIZE, FIELD_BLOCK_SIZE, N_MAP } from "../utils/constants";
-import { IndexHelper } from "../utils/IndexHelper";
+import IndexHelper from "../utils/IndexHelper";
 
 export type MapItemType = "X" | "E" | "B" | "T" | "R" | "S" | "F";
 
@@ -69,7 +69,6 @@ export interface RawStageConfig {
     bots: string[];
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class BotGroupConfig extends Record({
     tankLevel: "basic" as TankLevel,
     count: 0,
@@ -119,8 +118,7 @@ const StageConfigRecord = Record({
     bots: defaultBotsConfig,
 });
 
-// tslint:disable-next-line:max-classes-per-file
-export class StageConfig extends StageConfigRecord {
+export default class StageConfig extends StageConfigRecord {
     public static fromRawStageConfig(object: RawStageConfig) {
         return new StageConfig({
             name: object.name,
@@ -289,7 +287,6 @@ export class StageConfig extends StageConfigRecord {
     }
 }
 
-// tslint:disable-next-line:no-namespace
 export namespace StageConfigConverter {
     // stage-to-editor
     export function s2e(stage: StageConfig): EditorStageConfig {

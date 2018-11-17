@@ -1,11 +1,10 @@
 import { clamp } from "lodash";
-// tslint:disable-next-line:no-submodule-imports
 import { Effect, take } from "redux-saga/effects";
 import * as actions from "../utils/actions";
 
 const add = (x: number, y: number) => x + y;
 
-export class Timing<V> {
+export default class Timing<V> {
     /**
      * 用于生成等待一段时间的effect.
      * 该函数作用和delay类似, 不过该函数会考虑游戏暂停的情况

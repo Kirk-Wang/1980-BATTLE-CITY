@@ -1,5 +1,5 @@
 import { Record } from "immutable";
-import { TankRecord } from "./TankRecord";
+import TankRecord from "./TankRecord";
 
 const PlayerRecordBase = Record({
     playerName: null as PlayerName,
@@ -8,9 +8,10 @@ const PlayerRecordBase = Record({
     lives: 0,
     score: 0,
     reservedTank: null as TankRecord,
+    isSpawningTank: false,
 });
 
-export class PlayerRecord extends PlayerRecordBase {
+export default class PlayerRecord extends PlayerRecordBase {
     public static fromJS(object: any) {
         return new PlayerRecord(object).update("reservedTank", TankRecord.fromJS);
     }

@@ -8,7 +8,7 @@ const ExplosionRecordBase = Record({
     cy: 0,
 });
 
-export class ExplosionRecord extends ExplosionRecordBase {
+export default class ExplosionRecord extends ExplosionRecordBase {
     public static fromJS(object: any) {
         return new ExplosionRecord(object);
     }

@@ -1,4 +1,4 @@
-import { PlayerRecord } from "../types/PlayerRecord";
+import PlayerRecord from "../types/PlayerRecord";
 import { A, Action } from "../utils/actions";
 import { dec, inc } from "../utils/common";
 
@@ -7,8 +7,10 @@ export function playerReducerFactory(playerName: PlayerName) {
     return function players(state = initState, action: Action) {
         if (action.type === A.ActivatePlayer && action.playerName === playerName) {
             return state.set("activeTankId", action.tankId);
+        } else if (action.type === A.SetPlayerTankSpawningStatus && action.playerName === playerName) {
+            return state.set("isSpawningTank", action.isSpawning);
         } else if (action.type === A.StartGame) {
-            return state.set("lives", 3);
+            return state.set("lives", 1);
         } else if (action.type === A.SetReservedTank && action.playerName === playerName) {
             return state.set("reservedTank", action.tank);
         } else if (action.type === A.SetTankToDead) {

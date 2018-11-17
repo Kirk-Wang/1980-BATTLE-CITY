@@ -16,7 +16,6 @@ const BulletRecordBase = Record({
      * 子弹的强度 默认强度为1
      * 强度大于等于2的子弹一下子可以破坏两倍的brick-wall
      * 强度为3的子弹可以破坏steel-wall
-     *
      */
     power: 1,
     // 发射子弹的坦克id
@@ -26,7 +25,7 @@ const BulletRecordBase = Record({
     playerName: null as PlayerName,
 });
 
-export class BulletRecord extends BulletRecordBase {
+export default class BulletRecord extends BulletRecordBase {
     public static fromJS(object: any) {
         return new BulletRecord(object);
     }

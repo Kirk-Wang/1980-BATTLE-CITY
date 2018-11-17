@@ -3,7 +3,7 @@ import { ITEM_SIZE_MAP, N_MAP } from "./constants";
 
 export type ItemType = "brick" | "steel" | "river" | "snow" | "forest";
 
-export class IndexHelper {
+export default class IndexHelper {
     public static resolveN(type: ItemType) {
         let N: number;
         if (type === "brick") {
@@ -61,7 +61,8 @@ export class IndexHelper {
         };
     }
 
-    /** 输入itemtType和rect. 返回[row, col]的迭代器.
+    /**
+     * 输入itemtType和rect. 返回[row, col]的迭代器.
      * [row, col]代表的元素将会与rect发生碰撞
      * 参数direction可以改变迭代的方向
      */

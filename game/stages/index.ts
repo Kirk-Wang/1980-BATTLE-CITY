@@ -1,17 +1,17 @@
 import { List } from "immutable";
-import { StageConfig } from "../types/StageConfig";
+import StageConfig from "../types/StageConfig";
 
-const requireStage = (require as any).context("stages", false, /\.json/);
+const requireStage = (require as any).context(".", false, /\.json/);
 const filenames = List<string>(requireStage.keys());
 
-let stages = filenames
+let defaultStages = filenames
     .map(requireStage)
     .map(StageConfig.fromRawStageConfig)
     // 按照关卡数字顺序排序
-    .sortBy((s: any) => Number(s.name));
+    .sortBy(s => Number(s.name));
 
 if (DEV.TEST_STAGE) {
-    stages = stages.unshift(
+    defaultStages = defaultStages.unshift(
         StageConfig.fromRawStageConfig({
             name: "test",
             custom: false,
@@ -36,6 +36,6 @@ if (DEV.TEST_STAGE) {
     );
 }
 
-export const firstStageName = stages.first().name;
+export const firstStageName = defaultStages.first().name;
 
-export const defaultStages = stages;
+export default defaultStages;

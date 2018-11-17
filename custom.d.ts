@@ -24,3 +24,5 @@ declare module 'react' {
     href?: string
   }
 }
+
+declare module '@redux-saga/delay-p';

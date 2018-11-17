@@ -1,10 +1,9 @@
 import { Record } from "immutable";
 
 const TankRecordType = Record({
-    /**
-     * 坦克是否存活在战场上，因为坦克被击毁之后，坦克的子弹可能还处于飞行状态
-     * 故不能直接将坦克移除，而是使用该字段来表示坦克状态
-     */
+    /*
+      坦克是否存活在战场上，因为坦克被击毁之后，坦克的子弹可能还处于飞行状态
+     * 故不能直接将坦克移除，而是使用该字段来表示坦克状态 */
     alive: true,
     tankId: 0,
     x: 0,
@@ -31,7 +30,7 @@ const TankRecordType = Record({
     visible: true,
 });
 
-export class TankRecord extends TankRecordType {
+export default class TankRecord extends TankRecordType {
     public static fromJS(object: any) {
         return new TankRecord(object);
     }

@@ -1,14 +1,12 @@
-// tslint:disable-next-line:no-submodule-imports
 import { put, select, take } from "redux-saga/effects";
-import { State } from "../reducers";
-import { BulletRecord, TankRecord } from "../types";
+import { BulletRecord, State, TankRecord } from "../types";
 import * as actions from "../utils/actions";
 import { A } from "../utils/actions";
 import { calculateBulletStartPosition, getNextId } from "../utils/common";
 import * as selectors from "../utils/selectors";
 import values from "../utils/values";
 
-export function* fireController(tankId: TankId, shouldFire: () => boolean) {
+export default function* fireController(tankId: TankId, shouldFire: () => boolean) {
     // tank.cooldown用来记录player距离下一次可以发射子弹的时间
     // tank.cooldown大于0的时候玩家不能发射子弹
     // 每个TICK时, cooldown都会相应减少. 坦克发射子弹的时候, cooldown重置为坦克的发射间隔
@@ -28,7 +26,7 @@ export function* fireController(tankId: TankId, shouldFire: () => boolean) {
             if (bullets.count() < values.bulletLimit(tank)) {
                 const { x, y } = calculateBulletStartPosition(tank);
                 if (tank.side === "player") {
-                    // yield put(actions.playSound("bullet_shot"));
+                    yield put(actions.playSound("bullet_shot"));
                 }
                 const bullet = new BulletRecord({
                     bulletId: getNextId("bullet"),

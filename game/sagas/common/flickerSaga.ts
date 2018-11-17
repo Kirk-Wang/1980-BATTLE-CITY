@@ -1,9 +1,8 @@
-// tslint:disable-next-line:no-submodule-imports
 import { put } from "redux-saga/effects";
 import { FlickerRecord } from "../../types";
 import * as actions from "../../utils/actions";
 import { frame as f, getNextId } from "../../utils/common";
-import { Timing } from "../../utils/Timing";
+import Timing from "../../utils/Timing";
 
 const flickerShapeTiming = new Timing<FlickerShape>([
     { v: 3, t: f(3) },
@@ -21,7 +20,7 @@ const flickerShapeTiming = new Timing<FlickerShape>([
     { v: 3, t: f(1) },
 ]);
 
-export function* flickerSaga(x: number, y: number, spawnSpeed: number) {
+export default function* flickerSaga(x: number, y: number, spawnSpeed: number) {
     const flickerId = getNextId("flicker");
 
     try {

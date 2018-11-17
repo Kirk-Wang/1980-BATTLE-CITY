@@ -20,5 +20,4 @@ if (DEV.RESTRICTED_AREA) {
     };
 }
 
-// tslint:disable-next-line:no-default-export
 export default RestrictedAreaLayer;

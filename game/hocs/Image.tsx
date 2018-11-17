@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { withContext } from "recompose";
+
+const withContext = require("recompose/withContext").default;
 
 const cache = new Map<string, string>();
 
@@ -22,8 +23,7 @@ export interface ImageProps {
     style?: any;
 }
 
-// tslint:disable-next-line:max-classes-per-file
-export class Image extends React.PureComponent<ImageProps> {
+export default class Image extends React.PureComponent<ImageProps> {
     public static contextTypes = {
         store: PropTypes.any,
         underImageComponent: PropTypes.bool,
@@ -49,9 +49,9 @@ export class Image extends React.PureComponent<ImageProps> {
                     store,
                 }));
                 const element = React.createElement(enhancer(SimpleWrapper), null, children);
-                const strHTML = renderToStaticMarkup(element);
+                const str = renderToStaticMarkup(element);
                 const close = "</svg>";
-                const markup = open + strHTML + close;
+                const markup = open + str + close;
                 const blob = new Blob([markup], { type: "image/svg+xml" });
                 const url = URL.createObjectURL(blob);
                 cache.set(imageKey, url);
@@ -59,7 +59,7 @@ export class Image extends React.PureComponent<ImageProps> {
             }
             return (
                 <image
-                    data-imagekey={imageKey}
+                    data-imageKey={imageKey}
                     transform={transform}
                     href={cache.get(imageKey)}
                     width={width}

@@ -5,7 +5,7 @@ import { incTankLevel } from "../utils/common";
 
 export type TanksMap = Map<TankId, TankRecord>;
 
-export function tanks(state = Map() as TanksMap, action: Action) {
+export default function tanks(state = Map() as TanksMap, action: Action) {
     if (action.type === A.AddTank) {
         return state.set(action.tank.tankId, new TankRecord(action.tank));
     } else if (action.type === A.Hurt) {
@@ -42,8 +42,8 @@ export function tanks(state = Map() as TanksMap, action: Action) {
     } else if (action.type === A.SetCooldown) {
         return state.update(action.tankId, tank => tank.set("cooldown", action.cooldown));
     } else if (action.type === A.SetBotFrozenTimeout) {
-        return state.map(
-            tank => (tank.side === "bot" ? tank.set("moving", false).set("frozenTimeout", action.timeout) : tank),
+        return state.map(tank =>
+            tank.side === "bot" ? tank.set("moving", false).set("frozenTimeout", action.timeout) : tank,
         );
     } else if (action.type === A.SetFrozenTimeout) {
         return state.update(action.tankId, tank =>

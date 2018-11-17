@@ -3,7 +3,7 @@ import { A, Action } from "../utils/actions";
 
 const initState = new MapRecord({ eagle: null });
 
-export function map(state = initState, action: Action) {
+export default function mapReducer(state = initState, action: Action) {
     if (action.type === A.LoadStageMap) {
         return action.stage.map;
     } else if (action.type === A.DestroyEagle) {

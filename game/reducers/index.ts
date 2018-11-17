@@ -1,30 +1,39 @@
 import { List } from "immutable";
 import { combineReducers } from "redux";
-import { MapRecord, PlayerRecord } from "../types";
-import { StageConfig } from "../types/StageConfig";
+import devOnly from "../components/dev-only/reducer";
+import MapRecord from "../types/MapRecord";
+import PlayerRecord from "../types/PlayerRecord";
+import StageConfig from "../types/StageConfig";
 import { A, Action } from "../utils/actions";
-import { bullets, BulletsMap } from "./bullets";
-import { flickers, FlickersMap } from "./flickers";
-import { game, GameRecord } from "./game";
-import { map } from "./map";
+import bullets, { BulletsMap } from "./bullets";
+import explosions, { ExplosionsMap } from "./explosions";
+import flickers, { FlickersMap } from "./flickers";
+import game, { GameRecord } from "./game";
+import map from "./map";
 import { player1, player2 } from "./players";
-import { stages } from "./stages";
-import { tanks, TanksMap } from "./tanks";
+import powerUps, { PowerUpsMap } from "./powerUps";
+import scores, { ScoresMap } from "./scores";
+import stages from "./stages";
+import tanks, { TanksMap } from "./tanks";
+import texts, { TextsMap } from "./texts";
 
 export interface State {
-    /**
-     * 这是测试状态
-     */
-    test?: any;
+    // router: any;
     game: GameRecord;
-    stages: List<StageConfig>;
-    map: MapRecord;
     player1: PlayerRecord;
     player2: PlayerRecord;
     bullets: BulletsMap;
-    tanks: TanksMap;
+    explosions: ExplosionsMap;
+    map: MapRecord;
     time: number;
+    tanks: TanksMap;
     flickers: FlickersMap;
+    texts: TextsMap;
+    powerUps: PowerUpsMap;
+    scores: ScoresMap;
+    stages: List<StageConfig>;
+    editorContent: StageConfig;
+    devOnly: any;
 }
 
 export function time(state = 0, action: Action) {
@@ -35,15 +44,29 @@ export function time(state = 0, action: Action) {
     }
 }
 
-export const rootReducer = combineReducers<State>({
-    test: (state = 0) => state,
-    stages,
-    map,
+export function editorContent(state = new StageConfig(), action: Action) {
+    if (action.type === A.SetEditorContent) {
+        return action.stage;
+    } else {
+        return state;
+    }
+}
+
+export default combineReducers<State>({
+    // router: routerReducer,
+    game,
     player1,
     player2,
-    tanks,
-    game,
-    time,
-    flickers,
     bullets,
+    map,
+    time,
+    explosions,
+    flickers,
+    tanks,
+    texts,
+    powerUps,
+    scores,
+    stages,
+    devOnly,
+    editorContent,
 });

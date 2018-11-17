@@ -1,6 +1,6 @@
 import { EagleRecord, TankRecord } from "../types";
 
-export type Collision =
+type Collision =
     | CollisionWithBrick
     | CollisionWithSteel
     | CollisionWithBorder
@@ -45,3 +45,5 @@ export interface CollisionWithEagle {
     type: "eagle";
     eagle: EagleRecord;
 }
+
+export default Collision;

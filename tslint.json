@@ -6,6 +6,14 @@
     "no-console": false,
     "no-unused-expression": false,
     "no-bitwise": false,
-    "no-duplicate-imports": false
+    "no-duplicate-imports": false,
+    "no-default-export": false,
+    "no-shadowed-variable": false,
+    "no-submodule-imports": false,
+    "no-namespace": false,
+    "max-classes-per-file": false,
+    "no-object-literal-type-assertion": false,
+    "no-var-requires": false,
+    "only-arrow-functions": false
   }
 }

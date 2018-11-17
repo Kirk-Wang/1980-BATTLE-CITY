@@ -2,7 +2,7 @@ import getSum from "lodash/sum";
 import React from "react";
 import { connect } from "react-redux";
 import { wrapDisplayName } from "recompose";
-import { State } from "../reducers";
+import { State } from "../types";
 
 // HOC. 用来向组件注入名为 'tickIndex' 的prop
 // tickIndex会随着时间变化
@@ -11,9 +11,9 @@ import { State } from "../reducers";
 // 则前100毫秒中tickIndex的值为0, 接下来的200毫秒中tickIndex的值为1,
 // 紧接着的300毫秒中tickIndex的值为2. 然后tickIndex又会变为0, 如此循环...
 // tickIndex的值为 i 的时间长度由intervals数组下标 i 对应的数字决定
-export function registerTick(...intervals: number[]) {
+export default function registerTick(...intervals: number[]) {
     const sum = getSum(intervals);
-    return (BaseComponent: React.ComponentClass<any>) => {
+    return function(BaseComponent: React.ComponentClass<any>) {
         interface Props {
             time: number;
         }

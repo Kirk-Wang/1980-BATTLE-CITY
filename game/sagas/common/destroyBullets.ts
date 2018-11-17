@@ -1,14 +1,11 @@
-// tslint:disable-next-line:no-submodule-imports
 import { all, put } from "redux-saga/effects";
-import { BulletsMap } from "../../reducers/bullets";
-import { BulletRecord, ExplosionRecord } from "../../types";
+import { BulletRecord, BulletsMap, ExplosionRecord } from "../../types";
 import * as actions from "../../utils/actions";
 import { frame as f, getNextId } from "../../utils/common";
-import { Timing } from "../../utils/Timing";
+import Timing from "../../utils/Timing";
 
 function* explosionFromBullet(bullet: BulletRecord) {
     const bulletExplosionShapeTiming: Array<[ExplosionShape, number]> = [["s0", f(4)], ["s1", f(3)], ["s2", f(2)]];
-
     const explosionId = getNextId("explosion");
     try {
         for (const [shape, time] of bulletExplosionShapeTiming) {
@@ -42,7 +39,7 @@ function* destroyBullet(bullet: BulletRecord, useExplosion: boolean) {
 }
 
 /** 调用destroyBullet并使用ALL effects, 来同时移除若干个子弹 */
-export function* destroyBullets(bullets: BulletsMap, useExplosion: boolean) {
+export default function* destroyBullets(bullets: BulletsMap, useExplosion: boolean) {
     if (!bullets.isEmpty()) {
         yield all(
             bullets

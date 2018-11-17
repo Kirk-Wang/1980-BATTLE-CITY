@@ -38,7 +38,7 @@
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@redux-saga/deferred/-/deferred-1.0.0-beta.3.tgz#9d2340b2116371dcabebc10c5523c582a609590f"
 
-"@redux-saga/delay-p@^1.0.0-beta.3":
+"@redux-saga/delay-p@1.0.0-beta.3", "@redux-saga/delay-p@^1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@redux-saga/delay-p/-/delay-p-1.0.0-beta.3.tgz#8e3aaef6022cad25588c384878b4e84507472fd0"
   dependencies:
@@ -845,6 +845,10 @@ copy-descriptor@^0.1.0:
 core-js@^1.0.0:
   version "1.2.7"
   resolved "http://registry.npmjs.org/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+
+core-js@^2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
 core-util-is@~1.0.0:
   version "1.0.2"

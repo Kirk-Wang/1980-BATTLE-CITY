@@ -1,12 +1,19 @@
-// tslint:disable-next-line:no-submodule-imports
-import { put, take, takeLatest } from "redux-saga/effects";
+import { fork, put, takeEvery, takeLatest } from "redux-saga/effects";
+import * as actions from "../utils/actions";
 import { A } from "../utils/actions";
-import { gameSaga } from "./gameSaga";
-import { serverChannel } from "./server";
+import gameSaga from "./gameSaga";
+import soundManager from "./soundManager";
+import { syncFrom, syncTo } from "./syncLocalStorage";
 
-export function* rootSaga() {
-    DEV.LOG && console.log("rootSaga");
-    yield takeLatest(A.StartGame, gameSaga);
-    const action = yield take(serverChannel());
-    yield put(action);
+export default function* rootSaga() {
+    DEV.LOG && console.log("root saga started");
+
+    yield syncFrom();
+    yield fork(soundManager);
+    yield takeEvery(A.SyncCustomStages, syncTo);
+    yield takeLatest([A.StartGame, A.ResetGame], gameSaga);
+
+    if (DEV.SKIP_CHOOSE_STAGE) {
+        yield put(actions.startGame(0));
+    }
 }

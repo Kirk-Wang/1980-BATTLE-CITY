@@ -7,7 +7,7 @@ const FlickerRecordBase = Record({
     shape: 0 as FlickerShape,
 });
 
-export class FlickerRecord extends FlickerRecordBase {
+export default class FlickerRecord extends FlickerRecordBase {
     public static fromJS(object: any) {
         return new FlickerRecord(object);
     }

@@ -5,8 +5,10 @@
     "start": "webpack-dev-server --hot"
   },
   "dependencies": {
+    "@redux-saga/delay-p": "1.0.0-beta.3",
     "classnames": "^2.2.5",
     "colyseus.js": "^0.9.15",
+    "core-js": "^2.5.7",
     "immutable": "4.0.0-rc.11",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.0",
@@ -23,9 +25,9 @@
   "devDependencies": {
     "@blueprintjs/tslint-config": "^1.6.0",
     "@types/classnames": "^2.2.0",
+    "@types/lodash": "^4.14.117",
     "@types/node": "^10.12.0",
     "@types/react": "^16.7.6",
-    "@types/lodash": "^4.14.117",
     "@types/react-dom": "^16.0.9",
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-redux": "^6.0.8",
