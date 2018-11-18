@@ -19,26 +19,24 @@ export interface GameSceneProps {
 
 class GameScene extends React.PureComponent<GameSceneProps> {
     public componentDidMount() {
-        this.didMountOrUpdate();
+        // this.didMountOrUpdate();
     }
 
     public componentDidUpdate() {
-        this.didMountOrUpdate();
+        // this.didMountOrUpdate();
     }
 
     public didMountOrUpdate() {
         const { game, dispatch, match, stages } = this.props;
         if (game.status === "idle" || game.status === "gameover") {
             // 如果游戏还没开始或已经结束 则开始游戏
-            // const stageName = match.params.stageName;
-            const stageName = "1";
+            const stageName = match.params.stageName;
             const stageIndex = stages.findIndex(s => s.name === stageName);
             dispatch(actions.startGame(stageIndex === -1 ? 0 : stageIndex));
         } else {
             // status is 'on' or 'statistics'
             // 用户在地址栏中手动输入了新的关卡名称
-            // const stageName = match.params.stageName;
-            const stageName = "1";
+            const stageName = match.params.stageName;
             if (
                 game.currentStageName != null &&
                 stages.some(s => s.name === stageName) &&
