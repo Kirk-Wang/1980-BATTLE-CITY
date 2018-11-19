@@ -4,7 +4,7 @@
 
 module.exports = dev => ({
   // 是否打印 AI 的日志
-  'DEV.LOG_AI': false,
+  'DEV.LOG_AI': true,
   // 是否启用 console.assert
   'DEV.ASSERT': dev,
   // 是否显示 <SpotGraph />

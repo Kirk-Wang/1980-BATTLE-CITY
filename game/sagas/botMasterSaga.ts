@@ -1,4 +1,4 @@
-import { actionChannel, fork, put, select, take } from "redux-saga/effects";
+import { actionChannel, fork, put, select, take, takeEvery } from "redux-saga/effects";
 import { State } from "../reducers";
 import { TankRecord } from "../types";
 import * as actions from "../utils/actions";
@@ -7,8 +7,9 @@ import { getNextId } from "../utils/common";
 import { AI_SPAWN_SPEED_MAP, TANK_INDEX_THAT_WITH_POWER_UP } from "../utils/constants";
 import * as selectors from "../utils/selectors";
 import Timing from "../utils/Timing";
-import botSaga from "./BotSaga";
+// import botSaga from "./BotSaga";
 import { spawnTank } from "./common";
+import { sendMsgToServer, serverChannel } from "./server";
 
 function* addBotHelper() {
     const reqChannel = yield actionChannel(A.ReqAddBot);
@@ -22,6 +23,20 @@ function* addBotHelper() {
                 while (spawnPos == null) {
                     yield Timing.delay(200);
                     spawnPos = yield select(selectors.availableSpawnPosition);
+                }
+                // 分发坐标到 server
+                sendMsgToServer({
+                    type: "BOTSPAWNPOS",
+                    payload: spawnPos,
+                });
+                let spawnPosAction;
+                while (true) {
+                    spawnPosAction = yield take(serverChannel());
+                    if (spawnPosAction.type === "BOTSPAWNPOS") {
+                        // 从服务器拿到坐标
+                        spawnPos = spawnPosAction.payload;
+                        break;
+                    }
                 }
                 yield put(actions.removeFirstRemainingBot());
                 const level: any = game.remainingBots.first();
@@ -41,7 +56,7 @@ function* addBotHelper() {
                 yield put(actions.setIsSpawningBotTank(true));
                 yield spawnTank(tank, spawnSpeed);
                 yield put(actions.setIsSpawningBotTank(false));
-                yield fork(botSaga, tank.tankId);
+                // yield fork(botSaga, tank.tankId);
             }
         }
     } finally {

@@ -162,6 +162,7 @@ export default function* AIWorkerSaga(ctx: Bot) {
     }
 
     function* mode() {
+        // console.log(Math.random());
         if (Math.random() < 0.9 - continuousWanderCount * 0.02) {
             continuousWanderCount++;
             yield wanderMode(ctx);

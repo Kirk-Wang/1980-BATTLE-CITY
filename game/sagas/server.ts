@@ -2,12 +2,13 @@ import * as Colyseus from "colyseus.js";
 import { eventChannel } from "redux-saga";
 
 let channnel: any;
+let room: any;
 export function serverChannel() {
     if (channnel) {
         return channnel;
     }
-    const client = new Colyseus.Client("ws://dev.4366.com:3333");
-    const room = client.join("battle");
+    const client = new Colyseus.Client("ws://localhost:3333");
+    room = client.join("battle");
     room.onJoin.add(() => {
         console.log(client.id, "joined", room.name);
     });
@@ -21,4 +22,8 @@ export function serverChannel() {
         };
     });
     return channnel;
+}
+
+export function sendMsgToServer(action: any) {
+    room.send(action);
 }
