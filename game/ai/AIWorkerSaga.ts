@@ -1,10 +1,11 @@
 import { Map as IMap } from "immutable";
 import { Task } from "redux-saga";
-import { fork, race, select, take } from "redux-saga/effects";
+import { call, fork, race, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
+import { fetchServerAction } from "../sagas/server";
 import { TankFireInfo, TankRecord } from "../types";
-import * as actions from "../utils/actions";
 import { A } from "../utils/actions";
+import * as actions from "../utils/actions";
 import { randint } from "../utils/common";
 import { BLOCK_DISTANCE_THRESHOLD, BLOCK_TIMEOUT } from "../utils/constants";
 import * as selectors from "../utils/selectors";
@@ -162,7 +163,10 @@ export default function* AIWorkerSaga(ctx: Bot) {
     }
 
     function* mode() {
-        // console.log(Math.random());
+        // const type = "AIModeRandom";
+        // const payload = Math.random();
+        // const action = yield call(fetchServerAction, { type, payload });
+        // 这里会频繁调用
         if (Math.random() < 0.9 - continuousWanderCount * 0.02) {
             continuousWanderCount++;
             yield wanderMode(ctx);
