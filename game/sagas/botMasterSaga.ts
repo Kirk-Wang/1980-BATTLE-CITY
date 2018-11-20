@@ -24,20 +24,21 @@ function* addBotHelper() {
                     yield Timing.delay(200);
                     spawnPos = yield select(selectors.availableSpawnPosition);
                 }
-                // 分发坐标到 server
+                // 分发坐标到 server，服务器统一
                 sendMsgToServer({
                     type: "BOTSPAWNPOS",
                     payload: spawnPos,
                 });
                 let spawnPosAction;
+                // 等待 server 分发坐标
                 while (true) {
                     spawnPosAction = yield take(serverChannel());
                     if (spawnPosAction.type === "BOTSPAWNPOS") {
-                        // 从服务器拿到坐标
                         spawnPos = spawnPosAction.payload;
                         break;
                     }
                 }
+                console.log(new Date().getTime());
                 yield put(actions.removeFirstRemainingBot());
                 const level: any = game.remainingBots.first();
                 const hp = level === "armor" ? 4 : 1;
