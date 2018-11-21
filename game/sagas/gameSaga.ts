@@ -1,5 +1,5 @@
 import delay from "@redux-saga/delay-p";
-import { all, put, race, select, take } from "redux-saga/effects";
+import { all, call, put, race, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
 import TextRecord from "../types/TextRecord";
 import * as actions from "../utils/actions";
@@ -13,6 +13,7 @@ import bulletsSaga from "./bulletsSaga";
 import animateTexts from "./common/animateTexts";
 import playerSaga from "./playerSaga";
 import powerUpManager from "./powerUpManager";
+import { initalPlayers } from "./server";
 import stageSaga, { StageResult } from "./stageSaga";
 import tickEmitter from "./tickEmitter";
 
@@ -80,14 +81,15 @@ export default function* gameSaga(action: actions.StartGame | actions.ResetGame)
     yield delay(0);
     DEV.LOG && console.log("GAME STARTED");
 
-    const players = [playerSaga("player-1", PLAYER_CONFIGS.player1)];
-    if (yield select(selectors.isInMultiPlayersMode)) {
-        players.push(playerSaga("player-2", PLAYER_CONFIGS.player2));
-    }
+    // const players = [playerSaga("player-1", PLAYER_CONFIGS.player1)];
+    // if (yield select(selectors.isInMultiPlayersMode)) {
+    //     players.push(playerSaga("player-2", PLAYER_CONFIGS.player2));
+    // }
 
     const result = yield race({
         tick: tickEmitter({ bindESC: true }),
-        players: all(players),
+        players: initalPlayers(),
+        // players: all(players),
         // ai: botMasterSaga(),
         powerUp: powerUpManager(),
         bullets: bulletsSaga(),

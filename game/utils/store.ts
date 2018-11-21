@@ -1,7 +1,7 @@
 // import { routerMiddleware } from "react-router-redux";
 import { applyMiddleware, createStore } from "redux";
 import createSgaMiddleware from "redux-saga";
-import reducer from "../reducers/index";
+import { createReducer } from "../reducers/index";
 import rootSaga from "../sagas/index";
 // import history from "../utils/history";
 
@@ -15,7 +15,7 @@ const hooks = (_store: any) => (next: any) => (action: any) => {
 
 const sagaMiddleware = createSgaMiddleware();
 
-export const store = createStore(reducer, applyMiddleware(sagaMiddleware, hooks));
+export const store = createStore(createReducer(), applyMiddleware(sagaMiddleware, hooks));
 
 // export const store = createStore(reducer, applyMiddleware(routerMiddleware(history), sagaMiddleware));
 

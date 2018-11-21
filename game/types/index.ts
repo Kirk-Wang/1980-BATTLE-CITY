@@ -70,6 +70,7 @@ declare global {
     type TextId = number;
     type FlickerId = number;
     type ExplosionId = number;
+    type PlayerId = number;
 
     type ExplosionShape = "s0" | "s1" | "s2" | "b0" | "b1";
     type FlickerShape = 0 | 1 | 2 | 3;

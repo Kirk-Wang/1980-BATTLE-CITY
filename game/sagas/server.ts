@@ -1,6 +1,12 @@
 import * as Colyseus from "colyseus.js";
+import { combineReducers } from "redux";
 import { eventChannel } from "redux-saga";
-import { take } from "redux-saga/effects";
+import { call, fork, take } from "redux-saga/effects";
+import { createReducer } from "../reducers";
+import { playerReducerFactory } from "../reducers/players";
+import { PLAYER_CONFIGS } from "../utils/constants";
+import { store } from "../utils/store";
+import playerSaga from "./playerSaga";
 
 let channnel: any;
 let room: any;
@@ -14,15 +20,47 @@ export function serverChannel() {
         console.log(client.id, "joined", room.name);
     });
     channnel = eventChannel(emit => {
-        room.onMessage.add((action: any) => {
-            console.log(action);
-            emit(action);
+        room.listen("players/:id", (change: any) => {
+            emit({ type: "Players", payload: change });
         });
         return () => {
             console.log("clear");
         };
     });
     return channnel;
+}
+
+export function* initalPlayers() {
+    try {
+        const players: any = {};
+        let count = 0;
+        while (true) {
+            const action = yield take(serverChannel());
+            // 是对玩家的操作
+            if (action.type === "Players") {
+                const {
+                    payload: {
+                        operation,
+                        path: { id },
+                    },
+                } = action;
+                if (operation === "add") {
+                    // replaceReducer
+                    players[id] = playerReducerFactory(id);
+                    const reducer = createReducer(combineReducers({ ...players }));
+                    store.replaceReducer(reducer);
+                    count++;
+                    if (count === 1) {
+                        yield fork(playerSaga, id, PLAYER_CONFIGS.player1);
+                    } else {
+                        yield fork(playerSaga, id, PLAYER_CONFIGS.player2);
+                    }
+                }
+            }
+        }
+    } finally {
+        // console.log()
+    }
 }
 
 export function sendMsgToServer(action: any) {

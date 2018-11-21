@@ -11,7 +11,7 @@ import explosions, { ExplosionsMap } from "./explosions";
 import flickers, { FlickersMap } from "./flickers";
 import game, { GameRecord } from "./game";
 import map from "./map";
-import { player1, player2 } from "./players";
+import { player1, player2, PlayersMap } from "./players";
 import powerUps, { PowerUpsMap } from "./powerUps";
 import scores, { ScoresMap } from "./scores";
 import stages from "./stages";
@@ -23,6 +23,7 @@ export interface State {
     game: GameRecord;
     player1: PlayerRecord;
     player2: PlayerRecord;
+    players: PlayersMap;
     bullets: BulletsMap;
     explosions: ExplosionsMap;
     map: MapRecord;
@@ -53,21 +54,24 @@ export function editorContent(state = new StageConfig(), action: Action) {
     }
 }
 
-export default combineReducers<State>({
-    router: routerReducer,
-    game,
-    player1,
-    player2,
-    bullets,
-    map,
-    time,
-    explosions,
-    flickers,
-    tanks,
-    texts,
-    powerUps,
-    scores,
-    stages,
-    devOnly,
-    editorContent,
-});
+export function createReducer(players: any = (state: any = {}) => state) {
+    return combineReducers<State>({
+        router: routerReducer,
+        game,
+        player1,
+        player2,
+        players,
+        bullets,
+        map,
+        time,
+        explosions,
+        flickers,
+        tanks,
+        texts,
+        powerUps,
+        scores,
+        stages,
+        devOnly,
+        editorContent,
+    });
+}

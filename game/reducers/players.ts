@@ -2,6 +2,8 @@ import PlayerRecord from "../types/PlayerRecord";
 import { A, Action } from "../utils/actions";
 import { dec, inc } from "../utils/common";
 
+export type PlayersMap = Map<PlayerId, PlayerRecord>;
+
 export function playerReducerFactory(playerName: PlayerName) {
     const initState = new PlayerRecord({ playerName, side: "player" });
     return function players(state = initState, action: Action) {
