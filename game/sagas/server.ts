@@ -4,7 +4,7 @@ import { eventChannel } from "redux-saga";
 import { call, fork, take } from "redux-saga/effects";
 import { createReducer } from "../reducers";
 import { playerReducerFactory } from "../reducers/players";
-import { PLAYER_CONFIGS } from "../utils/constants";
+import { createPlayerConfig, PLAYER_CONFIGS } from "../utils/constants";
 import { store } from "../utils/store";
 import playerSaga from "./playerSaga";
 
@@ -33,9 +33,11 @@ export function serverChannel() {
 export function* initalPlayers() {
     try {
         const players: any = {};
-        let count = 0;
+        const tasks: any = {};
+        let index = 0;
         while (true) {
             const action = yield take(serverChannel());
+            console.log(action);
             // 是对玩家的操作
             if (action.type === "Players") {
                 const {
@@ -49,12 +51,15 @@ export function* initalPlayers() {
                     players[id] = playerReducerFactory(id);
                     const reducer = createReducer(combineReducers({ ...players }));
                     store.replaceReducer(reducer);
-                    count++;
-                    if (count === 1) {
-                        yield fork(playerSaga, id, PLAYER_CONFIGS.player1);
-                    } else {
-                        yield fork(playerSaga, id, PLAYER_CONFIGS.player2);
-                    }
+                    console.log(index);
+                    console.log(players);
+                    tasks[id] = yield fork(playerSaga, id, createPlayerConfig(index));
+                    // if (!index) {
+                    //     tasks.push(yield fork(playerSaga, id, PLAYER_CONFIGS.player1));
+                    // } else {
+                    //     tasks.push(yield fork(playerSaga, id, PLAYER_CONFIGS.player2));
+                    // }
+                    index++;
                 }
             }
         }

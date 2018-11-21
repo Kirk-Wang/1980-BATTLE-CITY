@@ -76,6 +76,31 @@ export const N_MAP = {
     FOREST: FIELD_SIZE / ITEM_SIZE_MAP.FOREST,
 };
 
+export const spawnPositions = [
+    {
+        x: 4 * BLOCK_SIZE,
+        y: 12 * BLOCK_SIZE,
+    },
+    {
+        x: 8 * BLOCK_SIZE,
+        y: 12 * BLOCK_SIZE,
+    },
+];
+
+export const playerColors = ["yellow", "green"];
+
+export const createPlayerConfig = (index: number) => ({
+    color: playerColors[index],
+    control: {
+        up: "KeyW",
+        left: "KeyA",
+        down: "KeyS",
+        right: "KeyD",
+        fire: "KeyJ",
+    },
+    spawnPos: spawnPositions[index],
+});
+
 export const PLAYER_CONFIGS: { [key: string]: PlayerConfig } = {
     player1: {
         color: "yellow",

@@ -11,7 +11,8 @@ import playerController from "./playerController";
 import playerTankSaga from "./playerTankSaga";
 
 export default function* playerSaga(playerName: PlayerName, config: PlayerConfig) {
-    yield takeEvery(A.StartStage, spawnPlayerTank);
+    // yield takeEvery(A.StartStage, spawnPlayerTank);
+    yield fork(spawnPlayerTank);
     yield takeEvery(A.BeforeEndStage, reserveTankOnStageEnd);
     yield takeEvery(playerScoreIncremented, handleIncPlayerScore);
     yield fork(borrowLifeWatcher);
