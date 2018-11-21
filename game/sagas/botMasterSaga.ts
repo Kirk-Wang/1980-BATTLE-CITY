@@ -1,4 +1,4 @@
-import { actionChannel, fork, put, select, take, takeEvery } from "redux-saga/effects";
+import { actionChannel, fork, put, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
 import { TankRecord } from "../types";
 import * as actions from "../utils/actions";
@@ -9,7 +9,6 @@ import * as selectors from "../utils/selectors";
 import Timing from "../utils/Timing";
 import botSaga from "./BotSaga";
 import { spawnTank } from "./common";
-import { sendMsgToServer, serverChannel } from "./server";
 
 function* addBotHelper() {
     const reqChannel = yield actionChannel(A.ReqAddBot);
@@ -24,21 +23,6 @@ function* addBotHelper() {
                     yield Timing.delay(200);
                     spawnPos = yield select(selectors.availableSpawnPosition);
                 }
-                // 分发坐标到 server，服务器统一
-                sendMsgToServer({
-                    type: "BOTSPAWNPOS",
-                    payload: spawnPos,
-                });
-                let spawnPosAction;
-                // 等待 server 分发坐标
-                while (true) {
-                    spawnPosAction = yield take(serverChannel());
-                    if (spawnPosAction.type === "BOTSPAWNPOS") {
-                        spawnPos = spawnPosAction.payload;
-                        break;
-                    }
-                }
-                console.log(new Date().getTime());
                 yield put(actions.removeFirstRemainingBot());
                 const level: any = game.remainingBots.first();
                 const hp = level === "armor" ? 4 : 1;

@@ -20,5 +20,6 @@
       "stripInternal": true,
       "target": "es2017",
       "downlevelIteration": true
-  }
+  },
+  "include": ["./game/**/*", "custom.d.ts"]
 }

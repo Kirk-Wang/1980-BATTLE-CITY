@@ -1,5 +1,6 @@
+// import { replace } from "react-router-redux";
 import { cancelled, put, select, take } from "redux-saga/effects";
-import { State } from "../reducers";
+// import { State } from "../reducers";
 import { TankRecord } from "../types";
 import StageConfig from "../types/StageConfig";
 import * as actions from "../utils/actions";

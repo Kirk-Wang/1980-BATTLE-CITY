@@ -2,7 +2,6 @@ import { Map as IMap } from "immutable";
 import { Task } from "redux-saga";
 import { call, fork, race, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
-import { fetchServerAction } from "../sagas/server";
 import { TankFireInfo, TankRecord } from "../types";
 import { A } from "../utils/actions";
 import * as actions from "../utils/actions";
@@ -39,6 +38,7 @@ function* wanderMode(ctx: Bot) {
     const { map }: State = yield select();
     const allSpots = getAllSpots(map);
     const path = findPath(allSpots, getTankSpot(tank), getRandomPassableSpot(allSpots));
+
     if (path != null) {
         yield followPath(ctx, path);
     } else {
@@ -163,9 +163,6 @@ export default function* AIWorkerSaga(ctx: Bot) {
     }
 
     function* mode() {
-        // const type = "AIModeRandom";
-        // const payload = Math.random();
-        // const action = yield call(fetchServerAction, { type, payload });
         // 这里会频繁调用
         if (Math.random() < 0.9 - continuousWanderCount * 0.02) {
             continuousWanderCount++;

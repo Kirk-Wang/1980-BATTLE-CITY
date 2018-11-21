@@ -1,5 +1,5 @@
-import { all, put, race, select, take } from "redux-saga/effects";
 import delay from "@redux-saga/delay-p";
+import { all, put, race, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
 import TextRecord from "../types/TextRecord";
 import * as actions from "../utils/actions";
@@ -8,7 +8,7 @@ import { getNextId } from "../utils/common";
 import { BLOCK_SIZE, PLAYER_CONFIGS } from "../utils/constants";
 import * as selectors from "../utils/selectors";
 import Timing from "../utils/Timing";
-import botMasterSaga from "./botMasterSaga";
+// import botMasterSaga from "./botMasterSaga";
 import bulletsSaga from "./bulletsSaga";
 import animateTexts from "./common/animateTexts";
 import playerSaga from "./playerSaga";
@@ -88,7 +88,7 @@ export default function* gameSaga(action: actions.StartGame | actions.ResetGame)
     const result = yield race({
         tick: tickEmitter({ bindESC: true }),
         players: all(players),
-        ai: botMasterSaga(),
+        // ai: botMasterSaga(),
         powerUp: powerUpManager(),
         bullets: bulletsSaga(),
         // 上面几个 saga 在一个 gameSaga 的生命周期内被认为是后台服务

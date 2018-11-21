@@ -1,16 +1,34 @@
+// import { routerMiddleware } from "react-router-redux";
 import { applyMiddleware, createStore } from "redux";
 import createSgaMiddleware from "redux-saga";
 import reducer from "../reducers/index";
 import rootSaga from "../sagas/index";
-const sagaMiddleware = createSgaMiddleware();
-// window.Atypes = [];
-// const hooks = (store: any) => (next: any) => (action: any) => {
-//     if (action.type !== "Tick" && action.type !== "AfterTick") {
-//         Atypes.push(action.type);
-//     }
-//     return next(action);
-// };
+// import history from "../utils/history";
 
-export const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+window.ActionTypes = [];
+const hooks = (_store: any) => (next: any) => (action: any) => {
+    if (action.type !== "Tick" && action.type !== "AfterTick") {
+        window.ActionTypes.push(action.type);
+    }
+    return next(action);
+};
+
+const sagaMiddleware = createSgaMiddleware();
+
+export const store = createStore(reducer, applyMiddleware(sagaMiddleware, hooks));
+
+// export const store = createStore(reducer, applyMiddleware(routerMiddleware(history), sagaMiddleware));
+
+// const handleLocationChange = (location: any, action?: any) => {
+//     store.dispatch({
+//         type: "@@router/LOCATION_CHANGE",
+//         payload: {
+//             location,
+//             action,
+//         },
+//     });
+// };
+// history.listen(handleLocationChange);
+// handleLocationChange(history.location);
 
 sagaMiddleware.run(rootSaga);
