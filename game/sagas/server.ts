@@ -54,11 +54,6 @@ export function* initalPlayers() {
                     console.log(index);
                     console.log(players);
                     tasks[id] = yield fork(playerSaga, id, createPlayerConfig(index));
-                    // if (!index) {
-                    //     tasks.push(yield fork(playerSaga, id, PLAYER_CONFIGS.player1));
-                    // } else {
-                    //     tasks.push(yield fork(playerSaga, id, PLAYER_CONFIGS.player2));
-                    // }
                     index++;
                 }
             }

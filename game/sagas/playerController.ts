@@ -35,6 +35,7 @@ export default function* playerController(tankId: TankId, config: PlayerConfig) 
     }
 
     function onKeyDown(event: KeyboardEvent) {
+        console.log("KeyDownw");
         const code = event.code;
         if (code === config.control.fire) {
             firePressing = true;
@@ -69,6 +70,7 @@ export default function* playerController(tankId: TankId, config: PlayerConfig) 
     function getPlayerInput(tank: TankRecord): Input {
         const direction = pressed.length > 0 ? last(pressed) : null;
         if (direction != null) {
+            console.log(tank);
             if (direction !== tank.direction) {
                 return { type: "turn", direction } as Input;
             } else {
