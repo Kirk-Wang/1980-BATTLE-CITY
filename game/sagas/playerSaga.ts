@@ -7,7 +7,7 @@ import { A } from "../utils/actions";
 import { frame, getNextId } from "../utils/common";
 import { LIFE_BONUS_SCORE } from "../utils/constants";
 import * as selectors from "../utils/selectors";
-import playerController from "./playerController";
+// import playerController from "./playerController";
 import playerTankSaga from "./playerTankSaga";
 
 export default function* playerSaga(playerName: PlayerName, config: PlayerConfig) {
@@ -20,7 +20,7 @@ export default function* playerSaga(playerName: PlayerName, config: PlayerConfig
     while (true) {
         const { tankId }: actions.ActivatePlayer = yield take(playerActivated);
         const result = yield race({
-            controller: playerController(tankId, config),
+            // controller: playerController(tankId, config),
             tank: playerTankSaga(playerName, tankId),
             stageEnd: take(A.EndStage),
         });

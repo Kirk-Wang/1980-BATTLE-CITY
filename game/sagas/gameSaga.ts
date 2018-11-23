@@ -1,5 +1,5 @@
 import delay from "@redux-saga/delay-p";
-import { fork, put, race, select, take } from "redux-saga/effects";
+import { all, fork, put, race, select, take } from "redux-saga/effects";
 import { State } from "../reducers";
 import TextRecord from "../types/TextRecord";
 import * as actions from "../utils/actions";
@@ -11,9 +11,10 @@ import Timing from "../utils/Timing";
 // import botMasterSaga from "./botMasterSaga";
 import bulletsSaga from "./bulletsSaga";
 import animateTexts from "./common/animateTexts";
+import { playerContrl } from "./playerContrl";
 // import playerSaga from "./playerSaga";
 import powerUpManager from "./powerUpManager";
-import { initalPlayers } from "./server";
+import { connectServer } from "./server";
 import stageSaga, { StageResult } from "./stageSaga";
 import tickEmitter from "./tickEmitter";
 
@@ -88,13 +89,14 @@ export default function* gameSaga(action: actions.StartGame | actions.ResetGame)
     const player = function*() {
         while (true) {
             yield take(A.StartStage);
-            yield fork(initalPlayers);
+            yield fork(connectServer);
         }
     };
     const result = yield race({
         tick: tickEmitter({ bindESC: true }),
         // players: initalPlayers(),
         player: player(),
+        controller: playerContrl(),
         // players: all(players),
         // ai: botMasterSaga(),
         powerUp: powerUpManager(),

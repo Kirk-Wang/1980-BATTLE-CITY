@@ -35,7 +35,6 @@ export default function* playerController(tankId: TankId, config: PlayerConfig) 
     }
 
     function onKeyDown(event: KeyboardEvent) {
-        console.log("KeyDownw");
         const code = event.code;
         if (code === config.control.fire) {
             firePressing = true;
