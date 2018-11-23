@@ -13,7 +13,7 @@ export interface ScreenProps {
 
 export default ({
     children,
-    background = "#757575",
+    background = "#333",
     onMouseDown,
     onMouseLeave,
     onMouseMove,

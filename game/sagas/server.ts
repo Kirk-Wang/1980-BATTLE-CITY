@@ -14,18 +14,16 @@ export function serverChannel() {
     if (channnel) {
         return channnel;
     }
-    const client = new Colyseus.Client("ws://localhost:3338");
+    const client = new Colyseus.Client("ws://172.25.176.80:3338");
     room = client.join("battle");
     room.onJoin.add(() => {
         console.log(client.id, "joined", room.name);
     });
     channnel = eventChannel(emit => {
         room.listen("players/:id", (change: any) => {
-            console.log(change);
             emit({ type: "Players", payload: change });
         });
         room.onMessage.add(function(action: any) {
-            console.log(action);
             emit(action);
         });
         return () => {
@@ -35,11 +33,12 @@ export function serverChannel() {
     return channnel;
 }
 
-let handleKeyDown: (...args: any) => any;
-let handleKeyUp: (...args: any) => any;
-export function whichKeyPressed(keydown: any, keyup: any) {
-    handleKeyDown = keydown;
-    handleKeyUp = keyup;
+const handlePressed: any = {};
+export function whichKeyPressed(playerName: string, keyDown: (...args: any) => any, keyUp: (...args: any) => any) {
+    handlePressed[playerName] = {
+        keyDown,
+        keyUp,
+    };
 }
 
 export function* connectServer() {
@@ -48,19 +47,17 @@ export function* connectServer() {
         const tasks: any = {};
         let playerIndex = 0;
         while (true) {
-            console.log("tasks");
             const action = yield take(serverChannel());
-            console.log(action);
             const { type, payload } = action;
             switch (type) {
                 case "Players":
                     yield* handlePlayers(payload);
                     break;
                 case "KeyDown":
-                    handleKeyDown(payload);
+                    handlePressed[payload.id].keyDown(payload);
                     break;
                 case "KeyUp":
-                    handleKeyUp(payload);
+                    handlePressed[payload.id].keyUp(payload);
                     break;
             }
         }
@@ -85,53 +82,6 @@ export function* connectServer() {
     }
 }
 
-export function* initalPlayers() {
-    try {
-        yield fork(function*() {
-            const players: any = {};
-            const tasks: any = {};
-            let index = 0;
-            while (true) {
-                const action = yield take(serverChannel());
-                console.log("initalPlayers", action);
-                // 是对玩家的操作
-                if (action.type === "Players") {
-                    const {
-                        payload: {
-                            operation,
-                            path: { id },
-                        },
-                    } = action;
-                    if (operation === "add") {
-                        // replaceReducer
-                        players[id] = playerReducerFactory(id);
-                        const reducer = createReducer(combineReducers({ ...players }));
-                        store.replaceReducer(reducer);
-                        console.log(index);
-                        console.log(players);
-                        tasks[id] = yield fork(playerSaga, id, createPlayerConfig(index));
-                        index++;
-                    }
-                }
-            }
-        });
-    } finally {
-        // console.log()
-    }
-}
-
 export function sendActionToServer(action: any) {
     room.send(action);
-}
-
-export function* fetchServerAction(action: any) {
-    // 向服务器发送 action 请求
-    sendActionToServer(action);
-    // 等待 server 响应
-    while (true) {
-        const msg = yield take(serverChannel());
-        if (action.type === msg.type) {
-            return action;
-        }
-    }
 }

@@ -1,44 +1,16 @@
 import last from "lodash/last";
 import pull from "lodash/pull";
-import { all, race, take } from "redux-saga/effects";
-import { Input, State, TankRecord } from "../types";
-import { A } from "../utils/actions";
-import { directionCtrl } from "./directionCtrl";
-import { sendActionToServer, whichKeyPressed } from "./server";
+import { all } from "redux-saga/effects";
+import { Input, TankRecord } from "../types";
+import directionController from "./directionController";
+import { whichKeyPressed } from "./server";
 
-export function* playerContrl() {
-    const pressed: string[] = [];
+export function* playerContrl(playerName: string, tankId: TankId) {
     const playesPressed: string[] = [];
-    let currentPlayerName: string = "";
     try {
-        document.addEventListener("keydown", onKeyDown);
-        document.addEventListener("keyup", onKeyUp);
-        while (true) {
-            yield take(A.StartStage);
-            yield all([whichKeyPressed(keyDown, keyUp), directionCtrl(getPlayerName, getPlayerInput)]);
-        }
-        // const result = yield race({
-        //     whichKeyPressed: whichKeyPressed(keyDown, keyUp),
-        //     // directionCtrl: directionCtrl(getPlayerName, getPlayerInput),
-        // });
-        // while (true) {
-        //     yield take("xx");
-        // }
-        // yield all([whichKeyPressed(keyDown, keyUp), directionCtrl(getPlayerName, getPlayerInput)]);
+        yield all([whichKeyPressed(playerName, keyDown, keyUp), directionController(tankId, getPlayerInput)]);
     } finally {
-        document.removeEventListener("keydown", onKeyDown);
-        document.removeEventListener("keyup", onKeyUp);
-    }
-
-    // region function-definitions
-    function trySendActionToServer(action: any) {
-        const {
-            payload: { code },
-        } = action;
-        if (!pressed.includes(code)) {
-            pressed.push(code);
-            sendActionToServer(action);
-        }
+        // console.log("xxx");
     }
 
     function tryPush(direciton: Direction) {
@@ -48,9 +20,7 @@ export function* playerContrl() {
     }
 
     function keyDown(payload: any) {
-        const { id, code } = payload;
-        currentPlayerName = id;
-        console.log(payload);
+        const { code } = payload;
         if (code === "KeyJ") {
             // firePressing = true;
             // firePressed = true;
@@ -66,9 +36,7 @@ export function* playerContrl() {
     }
 
     function keyUp(payload: any) {
-        const { id, code } = payload;
-        currentPlayerName = id;
-        console.log("keyUp");
+        const { code } = payload;
         if (code === "KeyJ") {
             // firePressing = false;
         } else if (code === "KeyA") {
@@ -81,27 +49,6 @@ export function* playerContrl() {
         } else if (code === "KeyS") {
             pull(playesPressed, "down");
         }
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-        const code = event.code;
-        trySendActionToServer({
-            type: "KeyDown",
-            payload: { code },
-        });
-    }
-
-    function onKeyUp(event: KeyboardEvent) {
-        const code = event.code;
-        pull(pressed, code);
-        sendActionToServer({
-            type: "KeyUp",
-            payload: { code },
-        });
-    }
-
-    function getPlayerName() {
-        return currentPlayerName;
     }
 
     // 调用该函数来获取当前用户的移动操作(坦克级别)

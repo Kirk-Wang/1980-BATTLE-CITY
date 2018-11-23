@@ -10,8 +10,8 @@ import { BLOCK_SIZE } from "../utils/constants";
 import Timing from "../utils/Timing";
 // import botMasterSaga from "./botMasterSaga";
 import bulletsSaga from "./bulletsSaga";
+import { clientCtrl } from "./clientCtrl";
 import animateTexts from "./common/animateTexts";
-import { playerContrl } from "./playerContrl";
 // import playerSaga from "./playerSaga";
 import powerUpManager from "./powerUpManager";
 import { connectServer } from "./server";
@@ -96,7 +96,7 @@ export default function* gameSaga(action: actions.StartGame | actions.ResetGame)
         tick: tickEmitter({ bindESC: true }),
         // players: initalPlayers(),
         player: player(),
-        controller: playerContrl(),
+        controller: clientCtrl(),
         // players: all(players),
         // ai: botMasterSaga(),
         powerUp: powerUpManager(),
