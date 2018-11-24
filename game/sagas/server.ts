@@ -14,7 +14,7 @@ export function serverChannel() {
     if (channnel) {
         return channnel;
     }
-    const client = new Colyseus.Client("ws://172.25.176.80:3338");
+    const client = new Colyseus.Client("ws://localhost:3338");
     room = client.join("battle");
     room.onJoin.add(() => {
         console.log(client.id, "joined", room.name);
