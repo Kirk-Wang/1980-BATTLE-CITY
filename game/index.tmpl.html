@@ -1,24 +1,266 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="theme-color" content="gray">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>decompose-battle-city</title>
-  <style>
+  <head>
+    <meta name="renderer" content="webkit" />
+    <meta name="description" content="1980-Battle-City" />
+    <meta name="keywords" content="1980-Battle-City" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      (function() {
+        var w = parseInt(window.screen.width),
+          s = w / 640,
+          u = navigator.userAgent.toLowerCase(),
+          m = '<meta name="viewport" content="width=640,';
+        if (/android (\d+\.\d+)/.test(u)) {
+          if (parseFloat(RegExp.$1) > 2.3)
+            m += "minimum-scale=" + s + ",maximum-scale=" + s + ",";
+        } else {
+          m += "user-scalable=no,";
+        }
+        m += 'target-densitydpi=device-dpi">';
+        document.write(m);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <title>1980-Battle-City</title>
+    <style>
       body {
-          background-color: #333;
+        background: #009688;
+        padding: 0;
+        margin: 0;
+        font: 20px/1 "HanHei SC", "PingHei", "PingFang SC", "STHeitiSC-Light",
+          "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        overflow: hidden;
+        cursor: default;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -moz-font-feature-settings: "liga", "kern";
+        direction: ltr;
+        text-align: left;
       }
-      .battle-field {
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
+      .r {
+        float: right;
       }
-  </style>
-</head>
+      .l {
+        float: left;
+      }
 
-<body>
-  <div id="container"></div>
-</body>
+      .clear {
+        clear: both;
+      }
 
+      .bg {
+        background: url("//img.alicdn.com/tps/TB1qq7kNXXXXXacXFXXXXXXXXXX-400-186.png")
+          no-repeat;
+        overflow: hidden;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .app {
+        width: 640px;
+        padding-top: 42px;
+        box-shadow: 0 0 10px #fff inset;
+        border-radius: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -480px 0 0 -320px;
+        background: #efcc19;
+      }
+
+      .game {
+        width: 624px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .decorate {
+        position: absolute;
+        top: -30px;
+        left: 0;
+        width: 100%;
+      }
+
+      .decorate h1 {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-weight: normal;
+        top: -12px;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 30px;
+      }
+
+      .decorate .topBorder {
+        position: absolute;
+        height: 10px;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        overflow: hidden;
+      }
+
+      .decorate .topBorder span {
+        display: block;
+        width: 10px;
+        height: 10px;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .decorate .topBorder span.mr {
+        margin-right: 10px;
+      }
+
+      .decorate .topBorder span.ml {
+        margin-left: 10px;
+      }
+
+      .decorate .view {
+        position: absolute;
+        right: -70px;
+        top: 20px;
+        width: 44px;
+      }
+
+      .decorate .view em {
+        display: block;
+        width: 22px;
+        height: 22px;
+        overflow: hidden;
+        float: left;
+      }
+
+      .decorate .view p {
+        height: 22px;
+        clear: both;
+      }
+
+      .decorate .view.l {
+        right: auto;
+        left: -70px;
+      }
+
+      .button {
+        position: absolute;
+        text-align: center;
+        color: #111;
+        position: absolute;
+        white-space: nowrap;
+        line-height: 1.6;
+      }
+
+      .button.s2 {
+        font-size: 16px;
+      }
+
+      .button span.position {
+        position: absolute;
+        top: 5px;
+        left: 102px;
+      }
+
+      .button i {
+        display: block;
+        position: relative;
+        border: 1px solid #000;
+        border-radius: 50%;
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .button i:before,
+      .button i:after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        box-shadow: 0 5px 10px rgba(255, 255, 255, 0.8) inset;
+      }
+
+      .button i:after {
+        box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.8) inset;
+      }
+
+      .button i.active:before {
+        box-shadow: 0 -3px 6px rgba(255, 255, 255, 0.6) inset;
+      }
+
+      .button i.active:after {
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.6) inset;
+      }
+
+      .button.blue i {
+        /* .background(#6e77ef, #4652f3); */
+        background: #5a65f1;
+        background: -webkit-gradient(
+          linear,
+          left top,
+          left bottom,
+          from(#6e77ef),
+          to(#4652f3)
+        );
+        background: -moz-linear-gradient(top, #6e77ef, #6e77ef);
+      }
+
+      .button.green i {
+        /* .background(#4bc441, #0ec400); */
+        background: #2dc421;
+        background: -webkit-gradient(
+          linear,
+          left top,
+          left bottom,
+          from(#4bc441),
+          to(#0ec400)
+        );
+        background: -moz-linear-gradient(top, #4bc441, #4bc441);
+      }
+
+      .button.red i {
+        /* .background(#dc3333, #de0000); */
+        background: #dd1a1a;
+        background: -webkit-gradient(
+          linear,
+          left top,
+          left bottom,
+          from(#dc3333),
+          to(#de0000)
+        );
+        background: -moz-linear-gradient(top, #dc3333, #dc3333);
+      }
+
+      .button.s0 i {
+        width: 160px;
+        height: 160px;
+      }
+
+      .button.s1 i {
+        width: 100px;
+        height: 100px;
+      }
+      .button.s2 i {
+        width: 52px;
+        height: 52px;
+      }
+
+      .button.s1 {
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+  </body>
 </html>

@@ -130,6 +130,7 @@ export class StatisticsSceneContent extends React.PureComponent<StatisticsSceneP
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 class StatisticsScene extends React.PureComponent<StatisticsSceneProps> {
     public render() {
         const { game } = this.props;

@@ -154,3 +154,9 @@ export function isPerpendicular(dir1: Direction, dir2: Direction) {
     const isDir2Vertical = dir2 === "up" || dir2 === "down";
     return xor(isDir1Vertical, isDir2Vertical);
 }
+
+export const transform = (function() {
+    const trans = ["transform", "webkitTransform", "msTransform", "mozTransform", "oTransform"];
+    const body = document.body;
+    return trans.filter((e: any) => body.style[e] !== undefined)[0];
+})();

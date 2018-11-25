@@ -2,7 +2,7 @@
   "name": "decompose-battle-city",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot --port 8000"
   },
   "dependencies": {
     "classnames": "^2.2.5",
