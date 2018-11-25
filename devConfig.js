@@ -12,7 +12,7 @@ module.exports = dev => ({
   // 是否显示 <TankPath />
   'DEV.TANK_PATH': false,
   // 是否显示 <RestrictedAreaLayer /> 与「坦克的转弯保留位置指示器」
-  'DEV.RESTRICTED_AREA': dev,
+  'DEV.RESTRICTED_AREA': false, //dev,
   // 是否加快游戏过程
   'DEV.FAST': false,
   // 是否使用测试关卡

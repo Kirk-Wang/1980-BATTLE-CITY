@@ -1,14 +1,23 @@
 import last from "lodash/last";
 import pull from "lodash/pull";
-import { all } from "redux-saga/effects";
+import { all, take } from "redux-saga/effects";
 import { Input, TankRecord } from "../types";
+import { A } from "../utils/actions";
 import directionController from "./directionController";
+import fireController from "./fireController";
 import { whichKeyPressed } from "./server";
 
 export function* playerContrl(playerName: string, tankId: TankId) {
+    let firePressing = false; // 用来记录当前玩家是否按下了fire键
+    let firePressed = false; // 用来记录上一个tick内 玩家是否按下过fire键
     const playesPressed: string[] = [];
     try {
-        yield all([whichKeyPressed(playerName, keyDown, keyUp), directionController(tankId, getPlayerInput)]);
+        yield all([
+            whichKeyPressed(playerName, keyDown, keyUp),
+            directionController(tankId, getPlayerInput),
+            fireController(tankId, () => firePressed || firePressing),
+            resetFirePressedEveryTick(),
+        ]);
     } finally {
         // console.log("xxx");
     }
@@ -22,8 +31,8 @@ export function* playerContrl(playerName: string, tankId: TankId) {
     function keyDown(payload: any) {
         const { code } = payload;
         if (code === "KeyJ") {
-            // firePressing = true;
-            // firePressed = true;
+            firePressing = true;
+            firePressed = true;
         } else if (code === "KeyA") {
             tryPush("left");
         } else if (code === "KeyD") {
@@ -38,7 +47,7 @@ export function* playerContrl(playerName: string, tankId: TankId) {
     function keyUp(payload: any) {
         const { code } = payload;
         if (code === "KeyJ") {
-            // firePressing = false;
+            firePressing = false;
         } else if (code === "KeyA") {
             pull(playesPressed, "left");
         } else if (code === "KeyD") {
@@ -62,4 +71,13 @@ export function* playerContrl(playerName: string, tankId: TankId) {
             }
         }
     }
+
+    function* resetFirePressedEveryTick() {
+        // 每次tick时, 都将firePressed重置
+        while (true) {
+            yield take(A.Tick);
+            firePressed = false;
+        }
+    }
+    // endregion
 }
