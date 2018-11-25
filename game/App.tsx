@@ -1,6 +1,7 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import Decorate from "./components/Decorate";
+import GamePad from "./components/GamePad";
 import GameScene from "./components/GameScene";
 import { transform } from "./utils/common";
 
@@ -51,6 +52,7 @@ class AppComponent extends React.Component<any, any> {
                     <Decorate />
                     <GameScene />
                 </div>
+                <GamePad />
             </div>
         );
     }
