@@ -116,7 +116,7 @@ export default class Keyboard extends React.Component<any, any> {
                     color="blue"
                     size="s1"
                     top={0}
-                    left={374}
+                    left={374 - 250}
                     label={"up"}
                     arrow="translate(0, 63px)"
                     position={true}
@@ -129,7 +129,7 @@ export default class Keyboard extends React.Component<any, any> {
                     color="blue"
                     size="s1"
                     top={180}
-                    left={374}
+                    left={374 - 250}
                     label={"down"}
                     arrow="translate(0,-71px) rotate(180deg)"
                     active={false}
@@ -141,7 +141,7 @@ export default class Keyboard extends React.Component<any, any> {
                     color="blue"
                     size="s1"
                     top={90}
-                    left={284}
+                    left={284 - 250}
                     label={"left"}
                     arrow="translate(60px, -12px) rotate(270deg)"
                     active={false}
@@ -153,7 +153,7 @@ export default class Keyboard extends React.Component<any, any> {
                     color="blue"
                     size="s1"
                     top={90}
-                    left={464}
+                    left={464 - 250}
                     label={"right"}
                     arrow="translate(-60px, -12px) rotate(90deg)"
                     active={false}
@@ -165,7 +165,7 @@ export default class Keyboard extends React.Component<any, any> {
                     color="red"
                     size="s0"
                     top={60}
-                    left={52}
+                    left={374}
                     label={`FIRE`}
                     active={false}
                     ref={c => {

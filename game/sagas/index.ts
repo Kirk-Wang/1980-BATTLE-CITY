@@ -14,6 +14,6 @@ export default function* rootSaga() {
     yield takeLatest([A.StartGame, A.ResetGame], gameSaga);
 
     if (DEV.SKIP_CHOOSE_STAGE) {
-        yield put(actions.startGame(0));
+        yield put(actions.startGame(3));
     }
 }
