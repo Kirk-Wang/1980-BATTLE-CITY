@@ -52,7 +52,7 @@ class AppComponent extends React.Component<any, any> {
                     <Decorate />
                     <GameScene />
                 </div>
-                <GamePad />
+                <GamePad filling={filling} />
             </div>
         );
     }

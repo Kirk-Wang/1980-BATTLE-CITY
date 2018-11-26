@@ -1,11 +1,38 @@
 import Immutable from "immutable";
+import pull from "lodash/pull";
 import React from "react";
-
-// import todo from "../../control/todo";
-// import store from "../../store";
-// import { i18n, lan } from "../../unit/const";
+import { take } from "redux-saga/effects";
+import { sendActionToServer } from "../sagas/server";
 import Button from "./GamePadButton";
-// import style from "./index.less";
+
+const pressed: string[] = [];
+
+function trySendActionToServer(action: any) {
+    const {
+        payload: { code },
+    } = action;
+    if (!pressed.includes(code)) {
+        pressed.push(code);
+        sendActionToServer(action);
+    }
+}
+
+function onKeyDown(event: any) {
+    const code = event.code;
+    trySendActionToServer({
+        type: "KeyDown",
+        payload: { code },
+    });
+}
+
+function onKeyUp(event: any) {
+    const code = event.code;
+    pull(pressed, code);
+    sendActionToServer({
+        type: "KeyUp",
+        payload: { code },
+    });
+}
 
 export default class Keyboard extends React.Component<any, any> {
     public domUp: Button;
@@ -48,53 +75,104 @@ export default class Keyboard extends React.Component<any, any> {
             true,
         );
 
-        const todo: any = {};
+        const todo: any = {
+            Up: {
+                down: () => {
+                    console.log("Up-KeyDown");
+                    onKeyDown({ code: "KeyW" });
+                },
+                up: () => {
+                    console.log("Up-KeyUp");
+                    onKeyUp({ code: "KeyW" });
+                },
+            },
+            Down: {
+                down: () => {
+                    console.log("Down-KeyDown");
+                    onKeyDown({ code: "KeyS" });
+                },
+                up: () => {
+                    console.log("Down-KeyUp");
+                    onKeyUp({ code: "KeyS" });
+                },
+            },
+            Left: {
+                down: () => {
+                    console.log("Left-KeyDown");
+                    onKeyDown({ code: "KeyA" });
+                },
+                up: () => {
+                    console.log("Left-KeyUp");
+                    onKeyUp({ code: "KeyA" });
+                },
+            },
+            Right: {
+                down: () => {
+                    console.log("Right-KeyDown");
+                    onKeyDown({ code: "KeyD" });
+                },
+                up: () => {
+                    console.log("Right-KeyUp");
+                    onKeyUp({ code: "KeyD" });
+                },
+            },
+            Fire: {
+                down: () => {
+                    console.log("Fire-KeyDown");
+                    onKeyDown({ code: "KeyJ" });
+                },
+                up: () => {
+                    console.log("Fire-KeyUp");
+                    onKeyUp({ code: "KeyJ" });
+                },
+            },
+        };
 
         Object.keys(todo).forEach((key: any) => {
-            this[`dom_${key}`].dom.addEventListener(
+            this[`dom${key}`].dom.addEventListener(
                 "mousedown",
                 () => {
                     if (touchEventCatch[key] === true) {
                         return;
                     }
-                    // todo[key].down(store);
+                    todo[key].down();
                     mouseDownEventCatch[key] = true;
                 },
                 true,
             );
-            this[`dom_${key}`].dom.addEventListener(
+            this[`dom${key}`].dom.addEventListener(
                 "mouseup",
                 () => {
                     if (touchEventCatch[key] === true) {
                         touchEventCatch[key] = false;
                         return;
                     }
-                    // todo[key].up(store);
+                    todo[key].up();
                     mouseDownEventCatch[key] = false;
                 },
                 true,
             );
-            this[`dom_${key}`].dom.addEventListener(
+            this[`dom${key}`].dom.addEventListener(
                 "mouseout",
                 () => {
                     if (mouseDownEventCatch[key] === true) {
-                        // todo[key].up(store);
+                        todo[key].up();
                     }
                 },
                 true,
             );
-            this[`dom_${key}`].dom.addEventListener(
+            this[`dom${key}`].dom.addEventListener(
                 "touchstart",
                 () => {
                     touchEventCatch[key] = true;
-                    // todo[key].down(store);
+                    todo[key].down();
                 },
                 true,
             );
-            this[`dom_${key}`].dom.addEventListener(
+            this[`dom${key}`].dom.addEventListener(
                 "touchend",
                 () => {
-                    // todo[key].up(store);
+                    todo[key].up();
                 },
                 true,
             );
@@ -104,7 +182,7 @@ export default class Keyboard extends React.Component<any, any> {
         return !Immutable.is(keyboard, this.props.keyboard) || filling !== this.props.filling;
     }
     public render() {
-        const keyboard = this.props.keyboard;
+        // const keyboard = this.props.keyboard;
         return (
             <div
                 className={"keyboard"}
