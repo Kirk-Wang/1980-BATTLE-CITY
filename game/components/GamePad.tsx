@@ -1,8 +1,9 @@
 import Immutable from "immutable";
 import pull from "lodash/pull";
 import React from "react";
-import { take } from "redux-saga/effects";
 import { sendActionToServer } from "../sagas/server";
+import { getSessionId } from "../sagas/server";
+import { store } from "../utils/store";
 import Button from "./GamePadButton";
 
 const pressed: string[] = [];

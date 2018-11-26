@@ -1,7 +1,8 @@
+import delay from "@redux-saga/delay-p";
 import * as Colyseus from "colyseus.js";
 import { combineReducers } from "redux";
 import { eventChannel } from "redux-saga";
-import { fork, take } from "redux-saga/effects";
+import { call, fork, select, take } from "redux-saga/effects";
 import { createReducer } from "../reducers";
 import { playerReducerFactory } from "../reducers/players";
 import { createPlayerConfig } from "../utils/constants";
@@ -10,16 +11,18 @@ import playerSaga from "./playerSaga";
 
 let channnel: any;
 let room: any;
+let client: any;
 export function serverChannel() {
     if (channnel) {
         return channnel;
     }
     const host = window.document.location.host.replace(/:.*/, "");
-    const client = new Colyseus.Client(location.protocol.replace("http", "ws") + host + ":3338");
+    client = new Colyseus.Client(location.protocol.replace("http", "ws") + host + ":3338");
     // const client = new Colyseus.Client("ws://localhost:3338");
     room = client.join("battle");
     room.onJoin.add(() => {
         console.log(client.id, "joined", room.name);
+        console.log(room);
     });
     channnel = eventChannel(emit => {
         room.listen("players/:id", (change: any) => {
@@ -60,7 +63,14 @@ export function* connectServer() {
                     break;
                 case "KeyUp":
                     handlePressed[payload.id].keyUp(payload);
+                    // yield call(delay, 0); // 让 KeyUp State 设置完毕
+                    // yield* syncPlayerTanks(payload);
                     break;
+                // case "SYNC":
+                //     yield put({
+                //         type: 'SYNCTANK',
+                //         payload
+                //     })
             }
         }
         function* handlePlayers(payload: any) {
@@ -78,6 +88,23 @@ export function* connectServer() {
                 playerIndex++;
             }
         }
+
+        // fix client state
+        function* syncPlayerTanks({ code, id }: any) {
+            const sessionId = getSessionId();
+            if (code !== "KeyJ" && id === sessionId) {
+                const { tanks, players }: any = yield select(state => state);
+                const player = players[getSessionId()];
+                const tank = tanks.get(player.activeTankId);
+                console.log(tank.toObject());
+                sendActionToServer({
+                    type: "SYNC",
+                    payload: {
+                        tank: tank.toObject(),
+                    },
+                });
+            }
+        }
     } finally {
         console.log("finally");
         // console.log
@@ -87,3 +114,5 @@ export function* connectServer() {
 export function sendActionToServer(action: any) {
     room.send(action);
 }
+
+export const getSessionId = () => room.sessionId;

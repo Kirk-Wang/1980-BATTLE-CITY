@@ -53,7 +53,6 @@ export function* playerContrl(playerName: string, tankId: TankId) {
         } else if (code === "KeyD") {
             pull(playesPressed, "right");
         } else if (code === "KeyW") {
-            console.log("KeyW");
             pull(playesPressed, "up");
         } else if (code === "KeyS") {
             pull(playesPressed, "down");
