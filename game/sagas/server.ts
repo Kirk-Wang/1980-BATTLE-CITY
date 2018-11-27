@@ -2,7 +2,7 @@ import delay from "@redux-saga/delay-p";
 import * as Colyseus from "colyseus.js";
 import { combineReducers } from "redux";
 import { eventChannel } from "redux-saga";
-import { call, fork, select, take } from "redux-saga/effects";
+import { call, fork, put, select, take } from "redux-saga/effects";
 import { createReducer } from "../reducers";
 import { playerReducerFactory } from "../reducers/players";
 import { createPlayerConfig } from "../utils/constants";
@@ -56,6 +56,12 @@ export function* connectServer() {
             const { type, payload } = action;
             switch (type) {
                 case "Players":
+                    if (playerIndex > 7) {
+                        continue;
+                    }
+                    if (tasks[payload.id]) {
+                        continue;
+                    }
                     yield* handlePlayers(payload);
                     break;
                 case "KeyDown":
@@ -63,22 +69,35 @@ export function* connectServer() {
                     break;
                 case "KeyUp":
                     handlePressed[payload.id].keyUp(payload);
-                    // yield call(delay, 0); // 让 KeyUp State 设置完毕
-                    // yield* syncPlayerTanks(payload);
+                    yield call(delay, 0); // 让 KeyUp State 设置完毕
+                    yield* syncPlayerTanks(payload);
                     break;
-                // case "SYNC":
-                //     yield put({
-                //         type: 'SYNCTANK',
-                //         payload
-                //     })
+                case "SYNC":
+                    yield* handleFixPlayersTank(payload);
+                    break;
             }
         }
+
+        function* handleFixPlayersTank({ id, tank }: any) {
+            const sessionId = getSessionId();
+            // 自己不用修复
+            if (id !== sessionId) {
+                const { players }: any = yield select(state => state);
+                const player = players[id];
+                // 拿到玩家在当前 client 的 id
+                tank.tankId = player.activeTankId;
+                yield put({
+                    type: "SyncPlayerTank",
+                    tank,
+                });
+            }
+        }
+
         function* handlePlayers(payload: any) {
             const {
                 operation,
                 path: { id },
             } = payload;
-            console.log("handlePlayers");
             if (operation === "add") {
                 // replaceReducer
                 players[id] = playerReducerFactory(id);
@@ -96,7 +115,6 @@ export function* connectServer() {
                 const { tanks, players }: any = yield select(state => state);
                 const player = players[getSessionId()];
                 const tank = tanks.get(player.activeTankId);
-                console.log(tank.toObject());
                 sendActionToServer({
                     type: "SYNC",
                     payload: {

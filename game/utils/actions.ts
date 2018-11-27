@@ -101,6 +101,7 @@ export enum A {
     SyncCustomStages = "SyncCustomStages",
     LeaveGameScene = "LeaveGameScene",
     PlaySound = "PlaySound",
+    SyncPlayerTank = "SyncPlayerTank",
 }
 
 export type Move = ReturnType<typeof move>;
@@ -682,6 +683,14 @@ export const syncCustomStages = () => ({ type: A.SyncCustomStages as A.SyncCusto
 export type LeaveGameScene = ReturnType<typeof leaveGameScene>;
 export const leaveGameScene = () => ({ type: A.LeaveGameScene as A.LeaveGameScene });
 
+export type SyncPlayerTank = ReturnType<typeof syncPlayerTank>;
+export function syncPlayerTank(tank: TankRecord) {
+    return {
+        type: A.SyncPlayerTank as A.SyncPlayerTank,
+        tank,
+    };
+}
+
 export type Action =
     | Move
     | StartMove
@@ -763,4 +772,5 @@ export type Action =
     | SetEditorContent
     | SyncCustomStages
     | LeaveGameScene
-    | PlaySound;
+    | PlaySound
+    | SyncPlayerTank;

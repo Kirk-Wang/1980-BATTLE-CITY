@@ -78,6 +78,26 @@ export const N_MAP = {
 
 export const spawnPositions = [
     {
+        x: 0,
+        y: 0,
+    },
+    {
+        x: 0,
+        y: 2 * BLOCK_SIZE,
+    },
+    {
+        x: 0,
+        y: 4 * BLOCK_SIZE,
+    },
+    {
+        x: 0,
+        y: 7 * BLOCK_SIZE,
+    },
+    {
+        x: 0,
+        y: 12 * BLOCK_SIZE,
+    },
+    {
         x: 4 * BLOCK_SIZE,
         y: 12 * BLOCK_SIZE,
     },
@@ -85,9 +105,13 @@ export const spawnPositions = [
         x: 8 * BLOCK_SIZE,
         y: 12 * BLOCK_SIZE,
     },
+    {
+        x: 10 * BLOCK_SIZE,
+        y: 12 * BLOCK_SIZE,
+    },
 ];
 
-export const playerColors = ["yellow", "green"];
+export const playerColors = ["yellow", "green", "silver", "red", "yellow", "green", "silver", "red"];
 
 export const createPlayerConfig = (index: number) => ({
     color: playerColors[index],

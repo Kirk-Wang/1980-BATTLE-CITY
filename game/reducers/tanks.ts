@@ -54,6 +54,8 @@ export default function tanks(state = Map() as TanksMap, action: Action) {
         );
     } else if (action.type === A.SetHelmetDuration) {
         return state.update(action.tankId, tank => tank.set("helmetDuration", Math.max(0, action.duration)));
+    } else if (action.type === A.SyncPlayerTank) {
+        return state.set(action.tank.tankId, new TankRecord(action.tank));
     } else {
         return state;
     }
