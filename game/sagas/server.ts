@@ -69,30 +69,9 @@ export function* connectServer() {
                     break;
                 case "KeyUp":
                     handlePressed[payload.id].keyUp(payload);
-                    yield call(delay, 0); // 让 KeyUp State 设置完毕
-                    yield* syncPlayerTanks(payload);
-                    break;
-                case "SYNC":
-                    yield* handleFixPlayersTank(payload);
                     break;
             }
         }
-
-        function* handleFixPlayersTank({ id, tank }: any) {
-            const sessionId = getSessionId();
-            // 自己不用修复
-            if (id !== sessionId) {
-                const { players }: any = yield select(state => state);
-                const player = players[id];
-                // 拿到玩家在当前 client 的 id
-                tank.tankId = player.activeTankId;
-                yield put({
-                    type: "SyncPlayerTank",
-                    tank,
-                });
-            }
-        }
-
         function* handlePlayers(payload: any) {
             const {
                 operation,
@@ -105,22 +84,6 @@ export function* connectServer() {
                 store.replaceReducer(reducer);
                 tasks[id] = yield fork(playerSaga, id, createPlayerConfig(playerIndex));
                 playerIndex++;
-            }
-        }
-
-        // fix client state
-        function* syncPlayerTanks({ code, id }: any) {
-            const sessionId = getSessionId();
-            if (code !== "KeyJ" && id === sessionId) {
-                const { tanks, players }: any = yield select(state => state);
-                const player = players[getSessionId()];
-                const tank = tanks.get(player.activeTankId);
-                sendActionToServer({
-                    type: "SYNC",
-                    payload: {
-                        tank: tank.toObject(),
-                    },
-                });
             }
         }
     } finally {

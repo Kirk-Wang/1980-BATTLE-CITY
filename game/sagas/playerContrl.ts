@@ -3,6 +3,7 @@ import pull from "lodash/pull";
 import { all, take } from "redux-saga/effects";
 import { Input, TankRecord } from "../types";
 import { A } from "../utils/actions";
+import { store } from "../utils/store";
 import directionController from "./directionController";
 import fireController from "./fireController";
 import { whichKeyPressed } from "./server";
@@ -45,7 +46,16 @@ export function* playerContrl(playerName: string, tankId: TankId) {
     }
 
     function keyUp(payload: any) {
-        const { code } = payload;
+        const { code, tank } = payload;
+        console.log("tank");
+        if (code !== "KeyJ") {
+            // todo: 坦克同步
+            console.log(tank);
+            // 这个id设置贼重要
+            tank.tankId = tankId;
+            console.log(tankId);
+            store.dispatch({ type: "SyncPlayerTank", tank });
+        }
         if (code === "KeyJ") {
             firePressing = false;
         } else if (code === "KeyA") {
